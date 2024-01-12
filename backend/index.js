@@ -3,6 +3,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
 const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
 
 // initializing the dotenv configuration for using the secrets present in .env file
 const dotenv = require('dotenv')
@@ -17,6 +18,7 @@ const userRouter = require('./routes/userRoutes.js')
 // Using necessary middlewares
 app.use(cors())
 app.use(bodyParser.json())
+app.use(cookieParser())
 app.use('/user', userRouter)
 
 

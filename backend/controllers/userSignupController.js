@@ -13,23 +13,36 @@ const users = require('../models/userSchema.js')
 const registerUser = async (req, res) => {
 
     try {
+        
         const { username, email, password } = req.body
         const encryptedPassword = await bcrypt.hash(password, 10)
 
         await new users({ username, email, password: encryptedPassword }).save()
         const user = await users.findOne({ email })
-        const token = jwt.sign({
-            user: {
-                userid: user._id
-            }
-        }, process.env.JWT_SECRET)
-        await users.updateOne({ _id: user._id } , { $set: { token : token  } })
+        const token = jwt.sign({ userid: user._id }, process.env.JWT_SECRET)
+        res.json({ msg: "Registered SuccessFully", token: token })
 
-        res.json({ msg: "Registered SuccessFully" })
     } catch (error) {
         const errors = userDetailsErrors(error)
         res.json({ msg: errors })
     }
 }
 
-module.exports = { registerUser }
+
+const loginUser = async (req, res) => {
+    try {
+        const { email, password } = req.body
+        const user = await users.findOne({ email })
+        if(user) {
+            const presentUser = await bcrypt.compare(password, user.password)
+            const token = jwt.sign({ userid: user._id }, process.env.JWT_SECRET)
+            res.json({ msg: 'Login SuccessFul', token: token })
+        }
+        else
+           res.json({ msg: 'User is not present with these credentials' })
+    } catch (error) {
+        res.send(error)
+    }
+}
+
+module.exports = { registerUser, loginUser }

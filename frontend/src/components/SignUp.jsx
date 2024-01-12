@@ -9,6 +9,12 @@ const SignUp = () => {
     const username = useRef(null)
     const email = useRef(null)
     const password = useRef(null)
+    const token = window.localStorage.getItem("token")
+
+    if(token) {
+        navigate('/')
+        return
+    }
 
     return (
         <div>
@@ -19,7 +25,7 @@ const SignUp = () => {
                     <input ref={email} type='email' placeholder='Email' className='border-2 border-[#f5f5fa] bg-[#f5f5fa] p-3 rounded-lg outline-none' />
                     <input ref={password} type='password' placeholder='Password' className='border-2 border-[#f5f5fa] bg-[#f5f5fa] p-3 rounded-lg outline-none' />
                     <div className='w-1/4'>
-                        <button onClick={() => handleUserSignUp(navigate, isSignUpForm, { username: username.current.value, email: email.current.value, password: password.current.value })} className='border-2 border-[#5fedb4] bg-[#5fedb4] text-white text-lg font-semibold py-2 px-5 rounded-lg'>{!isSignUpForm ? "SignIn" : "SignUp"}</button>
+                        <button onClick={() => handleUserSignUp(navigate, isSignUpForm, isSignUpForm ? { username: username.current.value, email: email.current.value, password: password.current.value } : { email: email.current.value, password: password.current.value })} className='border-2 border-[#5fedb4] bg-[#5fedb4] text-white text-lg font-semibold py-2 px-5 rounded-lg'>{!isSignUpForm ? "SignIn" : "SignUp"}</button>
                     </div>
                     {!isSignUpForm ? <p>Not registered yet? <span className='text-blue-400 text-lg underline cursor-pointer' onClick={() => setIsSignForm(true)}>SignUp</span></p> : <p className='text-lg text-gray-700'>Already a user? <span className='text-blue-400 text-lg underline cursor-pointer' onClick={() => setIsSignForm(false)}>SignIn</span></p>}
                 </div>

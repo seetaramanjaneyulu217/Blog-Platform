@@ -11,6 +11,7 @@ const handleUserSignUp = (navigate, isSignUpForm, { username, email, password })
             .then(data => {
                 if (data.msg === "Registered SuccessFully") {
                     toast.success(data.msg)
+                    window.localStorage.setItem('token', data.token)
                     setTimeout(() => {
                         navigate('/')
                     }, 1000)
@@ -23,7 +24,24 @@ const handleUserSignUp = (navigate, isSignUpForm, { username, email, password })
             })
             .catch(error => console.log(error))
     }
-    else postUserDetails("user/login", { email, password })
+    else {
+
+        let response = postUserDetails("user/login", { email, password })
+        response
+            .then(result => {
+                if (result.msg === 'Login SuccessFul') {
+                    toast.success(result.msg)
+                    window.localStorage.setItem('token', result.token)
+                    setTimeout(() => {
+                        navigate('/')
+                    }, 1000)
+                }
+                else {
+                    console.log(result.msg)
+                    toast.error(result.msg)
+                }
+            })
+    }
 }
 
 export default handleUserSignUp
