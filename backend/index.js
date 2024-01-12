@@ -11,9 +11,13 @@ dotenv.config()
 // initializing the express app
 const app = express()
 
+// importing the necessary routes
+const userRouter = require('./routes/userRoutes.js')
+
 // Using necessary middlewares
 app.use(cors())
 app.use(bodyParser.json())
+app.use('/user', userRouter)
 
 
 // Connecting the mongodb with my backend express app
@@ -28,10 +32,6 @@ mongoose.connect(process.env.MONGODB_URL)
     console.log("Error while connecting to MongoDB")
 })
 
-
-app.post('/signup', (req, res) => {
-    console.log(req.body)
-})
 
 app.post('/login', (req, res) => {
     console.log(req.body)
