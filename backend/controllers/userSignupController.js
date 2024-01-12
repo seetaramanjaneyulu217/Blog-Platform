@@ -35,8 +35,14 @@ const loginUser = async (req, res) => {
         const user = await users.findOne({ email })
         if(user) {
             const presentUser = await bcrypt.compare(password, user.password)
-            const token = jwt.sign({ userid: user._id }, process.env.JWT_SECRET)
-            res.json({ msg: 'Login SuccessFul', token: token })
+            if(presentUser) {
+                const token = jwt.sign({ userid: user._id }, process.env.JWT_SECRET)
+                res.json({ msg: 'Login SuccessFul', token: token })
+            }
+
+            else {
+                res.json({ msg: "Invalid credentials" })
+            }
         }
         else
            res.json({ msg: 'User is not present with these credentials' })
