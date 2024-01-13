@@ -8,22 +8,26 @@ const CreateBlog = () => {
 
     const title = useRef()
     const aboutBlog = useRef()
+    const [image, setImage] = useState(null)
+    const [formData, setFormData] = useState(null)
     const navigate = useNavigate()
-    const formData = new FormData()
-
+    
     const handleFileChange = (e) => {
+        const formData = new FormData()
         formData.append('file', e.target.files[0])
         formData.append("upload_preset", "rap0jfwa")
+        setImage(e.target.files[0])
+        setFormData(formData)
     }
 
     const handleBlog = async () => {
 
-        const isEmpty = formData.entries().next().done;
+        const isEmpty = formData.entries().next().done
 
         if(!isEmpty) {
             await axios.post(`https://api.cloudinary.com/v1_1/dipdggpwh/image/upload`, formData)
             .then(response => {
-                const match = response.data.url.match(/\/v([\w-]+\/[\w-]+)\.png/)
+                const match = response.data.url.match(/\/v([\w-]+\/[\w-]+)/)
                 handleBlogPost(navigate, { title: title.current.value, aboutBlog: aboutBlog.current.value, imageurl: match[1] })
             })
             .catch(error => console.log(error))
@@ -39,7 +43,7 @@ const CreateBlog = () => {
             {/*  For image */}
             <div className='border-2 border-[#f5f5fa] bg-[#f5f5fa] cursor-pointer rounded-3xl flex justify-center w-2/5'>
                 <label htmlFor="fileInput">
-                    <img src={DEFAULT_BLOG_IMAGE} className='h-96 w-96 cursor-pointer'  />
+                    <img src={ image ? URL.createObjectURL(image) : DEFAULT_BLOG_IMAGE} className='h-96 w-full rounded-3xl cursor-pointer'  />
                     <input
                         type="file"
                         id="fileInput"

@@ -19,7 +19,7 @@ const Header = () => {
       {/* for logo */}
       <div className='flex items-center gap-2'>
         <img src={LOGO} className='h-14 w-14' />
-        <h1 onClick={() => navigate('/')} className={`${location.pathname === '/create-blog' ? 'text-3xl' : 'text-4xl'} text-[#a1a1f7] font-semibold cursor-pointer`}>BlogPedia</h1>
+        <h1 onClick={() => navigate('/')} className={`${location.pathname === '/' ? 'text-4xl' : 'text-3xl'} text-[#a1a1f7] font-semibold cursor-pointer`}>BlogPedia</h1>
       </div>
 
       {/* for signup Link */}

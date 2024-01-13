@@ -19,6 +19,19 @@ const createBlog = async (req, res) => {
     }
 }
 
+const editBlog = async (req, res) => {
+    try {
+        const userId = req.user.userid
+        const { title, aboutBlog, imageurl, blogId } = req.body
+        await blogs.updateOne({ _id: blogId }, { $set: { title, aboutBlog, imageurl }})
+        res.json({ msg: 'Edit SuccessFul' })
+
+    } catch (error) {
+        const errors = blogDetailsErrors(error)
+        res.json({ msg: errors })
+    }
+}
+
 
 const getAllBlogs = async (req, res) => {
     try {
@@ -30,4 +43,15 @@ const getAllBlogs = async (req, res) => {
     }
 }
 
-module.exports = { createBlog, getAllBlogs }
+
+const getSingleBlog = async (req, res) => {
+    try {
+        const blogId = req.body.blogId
+        const blog = await blogs.findOne({ _id: blogId })
+        res.status(200).json({ msg: blog })
+    } catch (error) {
+        res.status(500).json({ msg: 'Error in getting the blog' })
+    }
+}
+
+module.exports = { createBlog, editBlog, getAllBlogs, getSingleBlog }
