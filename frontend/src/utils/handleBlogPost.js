@@ -9,6 +9,8 @@ const handleBlogPost = (navigate, { title, aboutBlog, imageurl }) => {
             toast.success(data.msg)
             navigate('/')
         }
+        else if(data.msg === 'Publishing the blog failed')
+            toast.error(data.msg)
         else if (Array.isArray(data.msg)) {
             data.msg.map(error => (
                 toast.error(error)

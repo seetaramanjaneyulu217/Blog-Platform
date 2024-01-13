@@ -9,6 +9,10 @@ const handleEditBlogPost = (navigate, blogId, { title, aboutBlog, imageurl }) =>
             toast.success(data.msg)
             navigate('/')
         }
+        
+        else if(data.msg === 'Edit failed')
+            toast.error(data.msg)
+
         else if (Array.isArray(data.msg)) {
             data.msg.map(error => (
                 toast.error(error)

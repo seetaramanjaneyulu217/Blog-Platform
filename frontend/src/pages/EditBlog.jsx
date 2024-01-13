@@ -26,9 +26,7 @@ const EditBlog = () => {
 
     const handleEditBlog = async () => {
 
-        const isEmpty = formData.entries().next().done
-
-        if (!isEmpty) {
+        if (image) {
             await axios.post(`https://api.cloudinary.com/v1_1/dipdggpwh/image/upload`, formData)
                 .then(response => {
                     const match = response.data.url.match(/\/v([\w-]+\/[\w-]+)/)

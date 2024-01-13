@@ -10,8 +10,12 @@ const createBlog = async (req, res) => {
 
         const userId = req.user.userid
         const { title, aboutBlog, imageurl } = req.body
-        await new blogs({ title, aboutBlog, imageurl, ownerId: new mongoose.Types.ObjectId(userId) }).save()
-        res.json({ msg: 'Published SuccessFully' })
+        const createStatus = await new blogs({ title, aboutBlog, imageurl, ownerId: new mongoose.Types.ObjectId(userId) }).save()
+
+        if(createStatus)
+            res.json({ msg: 'Published SuccessFully' })
+        else
+            res.json({ msg: 'Publishing the blog failed' })
 
     } catch (error) {
         const errors = blogDetailsErrors(error)
@@ -21,10 +25,30 @@ const createBlog = async (req, res) => {
 
 const editBlog = async (req, res) => {
     try {
-        const userId = req.user.userid
+        
         const { title, aboutBlog, imageurl, blogId } = req.body
-        await blogs.updateOne({ _id: blogId }, { $set: { title, aboutBlog, imageurl }})
-        res.json({ msg: 'Edit SuccessFul' })
+        const editStatus = await blogs.updateOne({ _id: blogId }, { $set: { title, aboutBlog, imageurl }})
+        if(editStatus)
+            res.json({ msg: 'Edit SuccessFul' })
+        else
+            res.json({ msg: 'Edit failed' })
+
+    } catch (error) {
+        const errors = blogDetailsErrors(error)
+        res.json({ msg: errors })
+    }
+}
+
+
+const deleteBlog = async (req, res) => {
+    try {
+        
+        const { blogId } = req.body
+        const deleteStatus = await blogs.deleteOne({ _id: blogId })
+        if(deleteStatus)
+            res.json({ msg: 'Deletion SuccessFul' })
+        else
+            res.json({ msg: 'Deletion failed' })
 
     } catch (error) {
         const errors = blogDetailsErrors(error)
@@ -54,4 +78,4 @@ const getSingleBlog = async (req, res) => {
     }
 }
 
-module.exports = { createBlog, editBlog, getAllBlogs, getSingleBlog }
+module.exports = { createBlog, editBlog, deleteBlog, getAllBlogs, getSingleBlog }
