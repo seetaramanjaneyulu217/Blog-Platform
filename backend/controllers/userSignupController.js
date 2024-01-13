@@ -19,7 +19,7 @@ const registerUser = async (req, res) => {
 
         await new users({ username, email, password: encryptedPassword }).save()
         const user = await users.findOne({ email })
-        const token = jwt.sign({ userid: user._id }, process.env.JWT_SECRET)
+        const token = jwt.sign({ user: { userid: user._id } }, process.env.JWT_SECRET)
         res.json({ msg: "Registered SuccessFully", token: token })
 
     } catch (error) {
@@ -36,7 +36,7 @@ const loginUser = async (req, res) => {
         if(user) {
             const presentUser = await bcrypt.compare(password, user.password)
             if(presentUser) {
-                const token = jwt.sign({ userid: user._id }, process.env.JWT_SECRET)
+                const token = jwt.sign({ user: { userid: user._id } }, process.env.JWT_SECRET)
                 res.json({ msg: 'Login SuccessFul', token: token })
             }
 

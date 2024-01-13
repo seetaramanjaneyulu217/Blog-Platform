@@ -1,12 +1,12 @@
-import postUserDetails from "./postUserDetails"
+import postMethodFetch from "./postMethodFetch"
 import toast from 'react-hot-toast'
 
 const handleUserSignUp = (navigate, isSignUpForm, { username, email, password }) => {
     // if user is trying to signup as a new user then 
     // signup route gets executed else login route gets executed 
-    // postUserDetails is an Function for communicating with signup and login routes
+    // postMethodFetch is an Function for communicating with signup and login routes
     if (isSignUpForm) {
-        const response = postUserDetails("user/signup", { username, email, password })
+        const response = postMethodFetch("user/signup", { username, email, password })
         response
             .then(data => {
                 if (data.msg === "Registered SuccessFully") {
@@ -16,17 +16,19 @@ const handleUserSignUp = (navigate, isSignUpForm, { username, email, password })
                         navigate('/')
                     }, 1000)
                 }
-                if (data.msg === "User already present")
+                else if (data.msg === "User already present")
                     return toast.error(data.msg)
-                data.msg.map(error => {
-                    toast.error(error)
-                })
+                else {
+                    data.msg.map(error => {
+                        toast.error(error)
+                    })
+                }
             })
             .catch(error => console.log(error))
     }
     else {
 
-        let response = postUserDetails("user/login", { email, password })
+        let response = postMethodFetch("user/login", { email, password })
         response
             .then(result => {
                 if (result.msg === 'Login SuccessFul') {

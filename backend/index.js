@@ -14,12 +14,14 @@ const app = express()
 
 // importing the necessary routes
 const userRouter = require('./routes/userRoutes.js')
+const blogRouter = require('./routes/blogRoutes.js')
 
 // Using necessary middlewares
 app.use(cors())
 app.use(bodyParser.json())
 app.use(cookieParser())
 app.use('/user', userRouter)
+app.use('/blog', blogRouter)
 
 
 // Connecting the mongodb with my backend express app
