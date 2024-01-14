@@ -80,4 +80,15 @@ const getSingleBlog = async (req, res) => {
     }
 }
 
-module.exports = { createBlog, editBlog, deleteBlog, getAllBlogs, getSingleBlog }
+
+const browseBlogs = async (req, res) => {
+    try {
+        const userId = req.user.userid
+        const resultBlogs = await blogs.find({ ownerId: { $ne: userId } })
+        res.status(200).json({ msg: resultBlogs })
+    } catch (error) {
+        res.status(500).json({ msg: 'Error in getting the blogs' })
+    }
+}
+
+module.exports = { createBlog, editBlog, deleteBlog, getAllBlogs, getSingleBlog, browseBlogs }

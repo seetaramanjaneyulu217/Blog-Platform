@@ -11,7 +11,7 @@ const Header = () => {
 
   const handleLogout = () => {
     window.localStorage.removeItem("token")
-    navigate('/')
+    navigate('/signup')
   }
 
   return (
@@ -31,6 +31,12 @@ const Header = () => {
               <Link to='/signup' className='border-2 border-[#5fedb4] bg-[#5fedb4] text-white text-lg font-semibold py-2 px-5 rounded-lg'>SignUp</Link>
             </div>
             : <div className='flex gap-7'>
+              {
+                location.pathname !== '/blogs/browse' &&
+                <button onClick={() => navigate('/blogs/browse')} className='flex items-center text-white font-semibold gap-1 border-2 border-[#5fedb4] bg-[#5fedb4] rounded-lg py-2 px-5'>
+                  <p>Browse blogs</p>
+                </button>
+              }
               {
                 location.pathname !== '/create-blog' && 
                 <button onClick={() => navigate('/create-blog')} className='flex items-center text-white font-semibold gap-1 border-2 border-[#5fedb4] bg-[#5fedb4] rounded-lg py-2 px-5'>

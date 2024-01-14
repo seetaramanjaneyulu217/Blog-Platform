@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { DEFAULT_BLOG_IMAGE } from '../utils/constants'
 import { MessageSquare, MoreVertical, ThumbsUp } from 'lucide-react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Dropdown, Space, Modal } from 'antd';
 import { Pencil, Trash } from "lucide-react";
 import handleDeleteBlog from '../utils/handleDeleteBlog';
@@ -9,6 +9,7 @@ import handleDeleteBlog from '../utils/handleDeleteBlog';
 const BlogCard = ({ blog }) => {
 
     const navigate = useNavigate()
+    const location = useLocation()
     const [open, setOpen] = useState(false)
 
     const items = [
@@ -61,19 +62,21 @@ const BlogCard = ({ blog }) => {
                 </div>
 
                 {/* For edit and delete options */}
-                <div>
-                    <Dropdown
-                        menu={{
-                            items
-                        }}
-                    >
-                        <Link onClick={(e) => e.preventDefault()}>
-                            <Space>
-                                <MoreVertical size={24} />
-                            </Space>
-                        </Link>
-                    </Dropdown>
-                </div>
+                {
+                    location.pathname !== '/blogs/browse' && <div>
+                        <Dropdown
+                            menu={{
+                                items
+                            }}
+                        >
+                            <Link onClick={(e) => e.preventDefault()}>
+                                <Space>
+                                    <MoreVertical size={24} />
+                                </Space>
+                            </Link>
+                        </Dropdown>
+                    </div>
+                }
             </div>
 
             <Modal
@@ -84,8 +87,10 @@ const BlogCard = ({ blog }) => {
                 footer={() => (
                     <div className='flex justify-end gap-x-3'>
                         <button onClick={() => setOpen(false)} className='text-white border-2 border-blue-300 bg-blue-300 hover:bg-white hover:text-blue-300 p-2 rounded-lg py-1 px-3'>No, Cancel</button>
-                        <button onClick={() => {handleDeleteBlog(blog._id)
-                                                setOpen(false)}} className='text-white border-2 border-red-400 bg-red-400 hover:bg-white hover:text-red-400 p-2 rounded-lg py-1 px-3'>Yes, delete</button>
+                        <button onClick={() => {
+                            handleDeleteBlog(blog._id)
+                            setOpen(false)
+                        }} className='text-white border-2 border-red-400 bg-red-400 hover:bg-white hover:text-red-400 p-2 rounded-lg py-1 px-3'>Yes, delete</button>
                     </div>
                 )}
             >
