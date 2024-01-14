@@ -9,7 +9,7 @@ import handleEditBlogPost from '../utils/handleEditBlogPost'
 const EditBlog = () => {
 
     const { blogId } = useParams()
-    const blog = useGetSingleBlog(blogId)
+    const [blog] = useGetSingleBlog(blogId)
     const title = useRef()
     const aboutBlog = useRef()
     const [image, setImage] = useState(null)

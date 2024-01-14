@@ -6,6 +6,7 @@ import CreateBlog from "./pages/CreateBlog";
 import GetAllBlogs from "./pages/GetAllBlogs";
 import SingleBlogDisplay from "./components/SingleBlogDisplay";
 import EditBlog from "./pages/EditBlog";
+import BrowseBlogs from "./pages/BrowseBlogs";
 
 function App() {
   return (
@@ -16,8 +17,9 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/create-blog" element={<CreateBlog />} />
         <Route path="/your-blogs" element={<GetAllBlogs />} />
-        <Route path="/blog/:blogId" element={<SingleBlogDisplay />} />
+        <Route path="/blog/:blogId/view" element={<SingleBlogDisplay />} />
         <Route path="/blog/:blogId/edit" element={<EditBlog />} />
+        <Route path="/blogs/browse" element={<BrowseBlogs />} />
       </Routes>
     </div>
   )

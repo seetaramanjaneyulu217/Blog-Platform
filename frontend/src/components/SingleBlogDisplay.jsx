@@ -1,20 +1,35 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
 import useGetSingleBlog from '../hooks/useGetSingleBlog'
+import moment from 'moment-timezone'
 
 const SingleBlogDisplay = () => {
 
-    const { blogId } = useParams()
-    const blog = useGetSingleBlog(blogId)
+  const { blogId } = useParams()
+  const [blog, user] = useGetSingleBlog(blogId)
 
   return (
-    <div className='flex flex-col w-1/4 mx-auto'>
-        {/*  for title */}
-        <h1 className='text-5xl font-bold'>{blog.title}</h1>
-        <img className='h-96 w-96' src={`https://res.cloudinary.com/dipdggpwh/image/upload/v${blog.imageurl}.png`} />
-        <p>
-            {blog.aboutBlog}
-        </p>
+    <div className='flex flex-col mt-[6%] w-9/12 ml-[10%] gap-y-10'>
+      {/*  for title */}
+      <h1 className='text-4xl font-semibold'>{blog.title}</h1>
+
+      <div className='flex flex-col items-end'>
+        <h1 className='text-lg font-semibold'>Author: <span className='text-lg font-medium'>{user.username}</span></h1>
+        <h1 className='text-lg font-semibold'>
+          Published on: <span className='text-lg font-medium'>{moment(blog.createdAt).tz('Asia/Kolkata').format('YYYY-MM-DD hh:mm:ss A')}</span>
+        </h1>
+        <h1 className='text-lg font-semibold'>
+          Updated on: <span className='text-lg font-medium'>{moment(blog.updatedAt).tz('Asia/Kolkata').format('YYYY-MM-DD hh:mm:ss A')}</span>
+        </h1>
+      </div>
+
+      {blog.imageurl !== null && <div className='w-full'>
+        <img className='h-96 rounded-2xl' src={`https://res.cloudinary.com/dipdggpwh/image/upload/v${blog.imageurl}.png`} />
+      </div>}
+
+      <p className='text-xl'>
+        {blog.aboutBlog}
+      </p>
     </div>
   )
 }

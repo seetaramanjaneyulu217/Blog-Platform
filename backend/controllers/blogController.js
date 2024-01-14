@@ -4,6 +4,7 @@ const mongoose = require("mongoose")
 // This is the function used to handle the blogDetails errors
 const blogDetailsErrors = require("../errors/blogDetailsErrors")
 const blogs = require("../models/blogSchema.js")
+const users = require('../models/userSchema.js')
 
 const createBlog = async (req, res) => {
     try {
@@ -72,7 +73,8 @@ const getSingleBlog = async (req, res) => {
     try {
         const blogId = req.body.blogId
         const blog = await blogs.findOne({ _id: blogId })
-        res.status(200).json({ msg: blog })
+        const user = await users.findOne({ _id: blog.ownerId })
+        res.status(200).json({ msg: { blog, user } })
     } catch (error) {
         res.status(500).json({ msg: 'Error in getting the blog' })
     }

@@ -34,16 +34,16 @@ const BlogCard = ({ blog }) => {
 
     return (
         <div className='flex items-center justify-center gap-x-8'>
-            <div onClick={() => navigate(`/blog/${blog._id}`)} className='flex border-2 p-2 cursor-pointer border-[#f5f5fa] bg-[#f5f5fa] rounded-xl w-6/12 mb-9 gap-x-7'>
+            <div onClick={() => navigate(`/blog/${blog._id}/view`)} className='flex border-2 p-2 cursor-pointer border-[#f5f5fa] bg-[#f5f5fa] rounded-xl w-6/12 mb-9 gap-x-7'>
                 {/* For image */}
                 <div className='w-3/12'>
-                    <img src={blog.imageurl === null ? DEFAULT_BLOG_IMAGE : `https://res.cloudinary.com/dipdggpwh/image/upload/v${blog.imageurl}.png`} className='h-44 w-44' />
+                    <img src={blog.imageurl === null ? DEFAULT_BLOG_IMAGE : `https://res.cloudinary.com/dipdggpwh/image/upload/v${blog.imageurl}.png`} className='h-44 w-full rounded-xl' />
                 </div>
 
                 {/* For blog title and blogDetails */}
-                <div className='w-8/12 mt-[5%] flex flex-col gap-y-3'>
-                    <h1 className='text-3xl font-semibold'>{blog.title}</h1>
-                    <p className='line-clamp-3'>{blog.aboutBlog}</p>
+                <div className='w-8/12 flex flex-col gap-y-3'>
+                    <h1 className='text-3xl font-semibold line-clamp-3'>{blog.title}</h1>
+                    <p className='line-clamp-2'>{blog.aboutBlog}</p>
                 </div>
             </div>
 
