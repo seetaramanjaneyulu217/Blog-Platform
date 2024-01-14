@@ -7,7 +7,8 @@ import GetAllBlogs from "./pages/GetAllBlogs";
 import SingleOwnBlogDisplay from "./pages/SingleOwnBlogDisplay";
 import EditBlog from "./pages/EditBlog";
 import BrowseBlogs from "./pages/BrowseBlogs";
-import SingleOthersBlogDisplay from './pages/SingleOthersBlogDisplay'
+import SingleOthersBlogDisplay from "./pages/SingleOthersBlogDisplay";
+
 
 function App() {
   return (

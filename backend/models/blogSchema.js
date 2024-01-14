@@ -26,6 +26,11 @@ const blogSchema = mongoose.Schema({
         default: 0
     },
 
+    allComments: {
+        type: Array,
+        default: []
+    },
+
     ownerId: {
         type: mongoose.Schema.ObjectId
     }

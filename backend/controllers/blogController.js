@@ -116,4 +116,21 @@ const likeBlog = async (req, res) => {
     }
 }
 
-module.exports = { createBlog, editBlog, deleteBlog, getAllBlogs, getSingleBlog, browseBlogs, likeBlog }
+
+const commentOnBlog = async (req, res) => {
+    try {
+        const userId = req.user.userid
+        const { username } = await users.findOne({ _id: userId })
+        const { comment, blogId } = req.body
+        const blog = await blogs.findOne({ _id: blogId })
+        const commentResponse = await blogs.updateOne({ _id: blogId }, { $set: { comments: blog.comments + 1, allComments: [...blog.allComments, { username, comment }] } })
+        if(commentResponse)
+          res.json({ msg: 'Commented SuccessFully on the blog' })
+        else
+          res.json({ msg: 'Error commenting on the blog' })
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ msg: 'Error commenting on the blog from error' })
+    }
+}
+module.exports = { createBlog, editBlog, deleteBlog, getAllBlogs, getSingleBlog, browseBlogs, likeBlog, commentOnBlog }
