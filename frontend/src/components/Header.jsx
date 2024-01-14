@@ -15,10 +15,10 @@ const Header = () => {
   }
 
   return (
-    <header className='flex justify-between py-8 px-14 items-center'>
+    <header className='header flex justify-between py-8 px-14 items-center'>
       {/* for logo */}
       <div className='flex items-center gap-2'>
-        <img src={LOGO} className='h-14 w-14' />
+        <img alt='logo' src={LOGO} className='h-14 w-14' />
         <h1 onClick={() => navigate('/')} className={`${location.pathname === '/' ? 'text-4xl' : 'text-3xl'} text-[#a1a1f7] font-semibold cursor-pointer`}>BlogPedia</h1>
       </div>
 

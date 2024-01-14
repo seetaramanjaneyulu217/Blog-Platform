@@ -3,7 +3,6 @@ import { DEFAULT_BLOG_IMAGE } from '../utils/constants'
 import { useNavigate, useParams } from 'react-router-dom'
 import useGetSingleBlog from '../hooks/useGetSingleBlog'
 import axios from 'axios'
-import handleBlogPost from '../utils/handleBlogPost'
 import handleEditBlogPost from '../utils/handleEditBlogPost'
 
 const EditBlog = () => {
@@ -45,7 +44,7 @@ const EditBlog = () => {
             {/*  For image */}
             <div className='border-2 border-[#f5f5fa] bg-[#f5f5fa] cursor-pointer rounded-3xl flex justify-center w-2/5'>
                 <label htmlFor="fileInput">
-                    <img src={image ? URL.createObjectURL(image) : blog.imageurl ? `https://res.cloudinary.com/dipdggpwh/image/upload/v${blog.imageurl}.png` : DEFAULT_BLOG_IMAGE} className='h-96 w-full rounded-3xl cursor-pointer' />
+                    <img alt='editimage' src={image ? URL.createObjectURL(image) : blog.imageurl ? `https://res.cloudinary.com/dipdggpwh/image/upload/v${blog.imageurl}.png` : DEFAULT_BLOG_IMAGE} className='h-96 w-full rounded-3xl cursor-pointer' />
                     <input
                         type="file"
                         id="fileInput"

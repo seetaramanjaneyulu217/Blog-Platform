@@ -31,6 +31,11 @@ const userSchema = new mongoose.Schema({
             },
             message: "Password must contain at least one uppercase letter, one lowercase letter, one special character, one digit."
         }
+    },
+
+    likedBlogs: {
+        type: Array,
+        default: []
     }
 })
 

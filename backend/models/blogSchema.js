@@ -16,6 +16,16 @@ const blogSchema = mongoose.Schema({
         default: ""
     },
 
+    likes: {
+        type: Number,
+        default: 0
+    },
+
+    comments: {
+        type: Number,
+        default: 0
+    },
+
     ownerId: {
         type: mongoose.Schema.ObjectId
     }

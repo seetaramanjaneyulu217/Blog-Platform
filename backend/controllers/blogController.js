@@ -13,7 +13,7 @@ const createBlog = async (req, res) => {
         const { title, aboutBlog, imageurl } = req.body
         const createStatus = await new blogs({ title, aboutBlog, imageurl, ownerId: new mongoose.Types.ObjectId(userId) }).save()
 
-        if(createStatus)
+        if (createStatus)
             res.json({ msg: 'Published SuccessFully' })
         else
             res.json({ msg: 'Publishing the blog failed' })
@@ -26,10 +26,10 @@ const createBlog = async (req, res) => {
 
 const editBlog = async (req, res) => {
     try {
-        
+
         const { title, aboutBlog, imageurl, blogId } = req.body
-        const editStatus = await blogs.updateOne({ _id: blogId }, { $set: { title, aboutBlog, imageurl }})
-        if(editStatus)
+        const editStatus = await blogs.updateOne({ _id: blogId }, { $set: { title, aboutBlog, imageurl } })
+        if (editStatus)
             res.json({ msg: 'Edit SuccessFul' })
         else
             res.json({ msg: 'Edit failed' })
@@ -43,10 +43,10 @@ const editBlog = async (req, res) => {
 
 const deleteBlog = async (req, res) => {
     try {
-        
+
         const { blogId } = req.body
         const deleteStatus = await blogs.deleteOne({ _id: blogId })
-        if(deleteStatus)
+        if (deleteStatus)
             res.json({ msg: 'Deletion SuccessFul' })
         else
             res.json({ msg: 'Deletion failed' })
@@ -71,10 +71,12 @@ const getAllBlogs = async (req, res) => {
 
 const getSingleBlog = async (req, res) => {
     try {
+        const userId = req.user.userid
         const blogId = req.body.blogId
         const blog = await blogs.findOne({ _id: blogId })
+        const loggedInUser = await users.findOne({ _id: userId })
         const user = await users.findOne({ _id: blog.ownerId })
-        res.status(200).json({ msg: { blog, user } })
+        res.status(200).json({ msg: { blog, user, loggedInUser } })
     } catch (error) {
         res.status(500).json({ msg: 'Error in getting the blog' })
     }
@@ -91,4 +93,27 @@ const browseBlogs = async (req, res) => {
     }
 }
 
-module.exports = { createBlog, editBlog, deleteBlog, getAllBlogs, getSingleBlog, browseBlogs }
+
+const likeBlog = async (req, res) => {
+    try {
+        const userId = req.user.userid
+        const { blogId } = req.body
+        const user = await users.findOne({ _id: userId })
+        if (user.likedBlogs.includes(blogId))
+            return res.json({ msg: 'You have already liked the blog' })
+        const blog = await blogs.findOne({ _id: blogId })
+        const blogUpdateResult = await blogs.updateOne({ _id: blogId }, {
+            $set: { likes: blog.likes + 1 }
+        })
+        const userUpdateResult = await users.updateOne({ _id: userId }, { $set: { likedBlogs: [...user.likedBlogs, blogId] } })
+
+        if (blogUpdateResult && userUpdateResult)
+            res.json({ msg: 'Like Success' })
+        else
+            res.json({ msg: 'Error in liking the blog' })
+    } catch (error) {
+        res.status(500).json({ msg: 'Error liking the blog' })
+    }
+}
+
+module.exports = { createBlog, editBlog, deleteBlog, getAllBlogs, getSingleBlog, browseBlogs, likeBlog }

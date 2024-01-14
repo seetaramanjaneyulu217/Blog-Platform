@@ -1,13 +1,8 @@
 import React from 'react'
-import { useParams } from 'react-router-dom'
-import useGetSingleBlog from '../hooks/useGetSingleBlog'
 import moment from 'moment-timezone'
 
-const SingleBlogDisplay = () => {
 
-  const { blogId } = useParams()
-  const [blog, user] = useGetSingleBlog(blogId)
-
+const SingleBlogDisplayTemplate = ({ blog, user }) => {
   return (
     <div className='flex flex-col mt-[6%] w-9/12 ml-[10%] gap-y-10'>
       {/*  for title */}
@@ -24,14 +19,15 @@ const SingleBlogDisplay = () => {
       </div>
 
       {blog.imageurl !== null && <div className='w-full'>
-        <img className='h-96 rounded-2xl' src={`https://res.cloudinary.com/dipdggpwh/image/upload/v${blog.imageurl}.png`} />
+        <img alt='blogimage' className='h-96 rounded-2xl' src={`https://res.cloudinary.com/dipdggpwh/image/upload/v${blog.imageurl}.png`} />
       </div>}
 
       <p className='text-xl'>
         {blog.aboutBlog}
       </p>
+
     </div>
   )
 }
 
-export default SingleBlogDisplay
+export default SingleBlogDisplayTemplate

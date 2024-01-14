@@ -35,10 +35,10 @@ const BlogCard = ({ blog }) => {
 
     return (
         <div className='flex items-center justify-center gap-x-8'>
-            <div onClick={() => navigate(`/blog/${blog._id}/view`)} className='flex border-2 p-2 cursor-pointer border-[#f5f5fa] bg-[#f5f5fa] rounded-xl w-6/12 mb-9 gap-x-7'>
+            <div onClick={() =>  { location.pathname !== '/blogs/browse' ? navigate(`/blog/${blog._id}/view`) : navigate(`/blog/${blog._id}/others/view`) }} className='flex border-2 p-2 cursor-pointer border-[#f5f5fa] bg-[#f5f5fa] rounded-xl w-6/12 mb-9 gap-x-7'>
                 {/* For image */}
                 <div className='w-3/12'>
-                    <img src={blog.imageurl === null ? DEFAULT_BLOG_IMAGE : `https://res.cloudinary.com/dipdggpwh/image/upload/v${blog.imageurl}.png`} className='h-44 w-full rounded-xl' />
+                    <img alt='blogimage' src={blog.imageurl === null ? DEFAULT_BLOG_IMAGE : `https://res.cloudinary.com/dipdggpwh/image/upload/v${blog.imageurl}.png`} className='h-44 w-full rounded-xl' />
                 </div>
 
                 {/* For blog title and blogDetails */}
@@ -49,18 +49,6 @@ const BlogCard = ({ blog }) => {
             </div>
 
             <div className='flex flex-col gap-y-5'>
-                {/*  For likes */}
-                <div className='flex items-center gap-1 text-2xl cursor-pointer'>
-                    <ThumbsUp strokeWidth={1.25} size={30} />
-                    <p>0</p>
-                </div>
-
-                {/* For comments */}
-                <div className='flex items-center gap-1 text-2xl cursor-pointer'>
-                    <MessageSquare strokeWidth={1} size={30} />
-                    <p>0</p>
-                </div>
-
                 {/* For edit and delete options */}
                 {
                     location.pathname !== '/blogs/browse' && <div>

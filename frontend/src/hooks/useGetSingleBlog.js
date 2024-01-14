@@ -6,6 +6,7 @@ const useGetSingleBlog = (blogId) => {
 
     const [blog, setBlog] = useState({})
     const [user, setUser] = useState({})
+    const [loggedInUser, setLoggedInUser] = useState({})
     
     useEffect(() => {
         const response = postMethodFetch('blog/getblogbyid', { blogId })
@@ -15,11 +16,12 @@ const useGetSingleBlog = (blogId) => {
             else {
               setBlog(data.msg.blog)
               setUser(data.msg.user)
+              setLoggedInUser(data.msg.loggedInUser)
             }
         })
     }, [])
 
-    return [blog, user]
+    return [blog, user, loggedInUser]
 }
 
 export default useGetSingleBlog
