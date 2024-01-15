@@ -2,23 +2,28 @@ import { useEffect, useState } from "react"
 import getMethodFetch from "../utils/getMethodFetch"
 import toast from "react-hot-toast"
 
-const useBrowseBlogs = () => {
-    
-    const [blogs, setBlogs] = useState([])
+const useBrowseBlogs = (setLoading) => {
 
-    useEffect(() => {
-        const response = getMethodFetch('blog/browseblogs')
-        response
-        .then(data => {
-            if(data.msg === 'Error in getting the blogs')
-              toast.error(data.msg)
-            else 
-              setBlogs(data.msg)
-        })
-        .catch()
-    }, [])
+  const [blogs, setBlogs] = useState([])
 
-    return blogs
+  useEffect(() => {
+    setLoading(true)
+    const response = getMethodFetch('blog/browseblogs')
+    response
+      .then(data => {
+        if (data.msg === 'Error in getting the blogs')
+          toast.error(data.msg)
+        else {
+          setTimeout(() => {
+            setLoading(false)
+          }, 600)
+          setBlogs(data.msg)
+        }
+      })
+      .catch()
+  }, [])
+
+  return blogs
 }
 
 export default useBrowseBlogs
