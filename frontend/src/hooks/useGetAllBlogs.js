@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import getMethodFetch from "../utils/getMethodFetch"
 import toast from "react-hot-toast"
 
-const useGetAllBlogs = () => {
+const useGetAllBlogs = (deletedBlog) => {
 
   const [allBlogs, setAllBlogs] = useState([])
 
@@ -16,7 +16,7 @@ const useGetAllBlogs = () => {
               setAllBlogs(data.msg)
         })
         .catch(error => console.log(error))
-    }, [])
+    }, [deletedBlog])
 
     return allBlogs
 }

@@ -7,7 +7,7 @@ const handleBlogPost = (navigate, { title, aboutBlog, imageurl }) => {
     response.then(data => {
         if (data.msg === 'Published SuccessFully') {
             toast.success(data.msg)
-            navigate('/')
+            navigate('/your-blogs')
         }
         else if(data.msg === 'Publishing the blog failed')
             toast.error(data.msg)

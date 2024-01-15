@@ -10,8 +10,9 @@ import handleCommentOnTheBlog from '../utils/handleCommentOnTheBlog'
 const SingleOthersBlogDisplay = () => {
 
     const { blogId } = useParams()
-    const [stateUpdate, setStateUpdate] = useState(false)
-    const [blog, user, loggedInUser] = useGetSingleBlog(blogId, stateUpdate)
+    const likedTheBlog = useSelector(state => state.blog.likedTheBlog)
+    const commentedTheBlog = useSelector(state => state.blog.commentedTheBlog)
+    const [blog, user, loggedInUser] = useGetSingleBlog(blogId, likedTheBlog, commentedTheBlog)
     const dispatch = useDispatch()
     const comment = useRef()
 
@@ -23,7 +24,7 @@ const SingleOthersBlogDisplay = () => {
             <div className='mt-[2%] flex items-center justify-end mr-[15%] gap-x-7 mb-[3%]'>
                 {/*  For likes */}
                 <div className='flex items-center gap-1 text-2xl cursor-pointer'>
-                    <Heart onClick={() => handleLikeBlog(blogId, setStateUpdate)} color={`${loggedInUser.likedBlogs?.includes(blogId) ? 'red' : 'black'}`} fill={`${loggedInUser.likedBlogs?.includes(blogId) ? 'red' : 'none'}`} strokeWidth={1.25} size={30} />
+                    <Heart onClick={() => handleLikeBlog(blogId, dispatch)} color={`${loggedInUser.likedBlogs?.includes(blogId) ? 'red' : 'black'}`} fill={`${loggedInUser.likedBlogs?.includes(blogId) ? 'red' : 'none'}`} strokeWidth={1.25} size={30} />
                     <p>{blog.likes}</p>
                 </div>
 
@@ -39,7 +40,7 @@ const SingleOthersBlogDisplay = () => {
             <div className='flex flex-col mb-[4%]'>
                 <textarea ref={comment} className='w-9/12 ml-[9.9%] border-2 border-[#f5f5fa] bg-[#f5f5fa] p-3 rounded-lg outline-none' placeholder='Comment on this blog'></textarea>
                 <div className='w-9/12 ml-[9.9%] flex justify-end mt-[1%]'>
-                    <button onClick={ () => handleCommentOnTheBlog(comment.current.value, blogId, setStateUpdate)} className='border-2 border-[#5fedb4] bg-[#5fedb4] p-3 py-2 px-5 rounded-lg text-white font-semibold'>Comment</button>
+                    <button onClick={ () => handleCommentOnTheBlog(comment.current.value, blogId, dispatch)} className='border-2 border-[#5fedb4] bg-[#5fedb4] p-3 py-2 px-5 rounded-lg text-white font-semibold'>Comment</button>
                 </div>
             </div>
 

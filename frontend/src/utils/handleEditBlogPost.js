@@ -7,7 +7,7 @@ const handleEditBlogPost = (navigate, blogId, { title, aboutBlog, imageurl }) =>
     response.then(data => {
         if (data.msg === 'Edit SuccessFul') {
             toast.success(data.msg)
-            navigate('/')
+            navigate('/your-blogs')
         }
         
         else if(data.msg === 'Edit failed')

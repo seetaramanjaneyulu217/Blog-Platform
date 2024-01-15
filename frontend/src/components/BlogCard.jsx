@@ -5,12 +5,15 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Dropdown, Space, Modal } from 'antd';
 import { Pencil, Trash } from "lucide-react";
 import handleDeleteBlog from '../utils/handleDeleteBlog';
+import { useDispatch } from 'react-redux';
+import { deletedBlog } from '../store/userActionsSlice';
 
 const BlogCard = ({ blog }) => {
 
     const navigate = useNavigate()
     const location = useLocation()
     const [open, setOpen] = useState(false)
+    const dispatch = useDispatch()
 
     const items = [
         {
@@ -78,6 +81,7 @@ const BlogCard = ({ blog }) => {
                         <button onClick={() => {
                             handleDeleteBlog(blog._id)
                             setOpen(false)
+                            dispatch(deletedBlog())
                         }} className='text-white border-2 border-red-400 bg-red-400 hover:bg-white hover:text-red-400 p-2 rounded-lg py-1 px-3'>Yes, delete</button>
                     </div>
                 )}

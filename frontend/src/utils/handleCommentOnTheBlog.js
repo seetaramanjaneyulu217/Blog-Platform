@@ -1,7 +1,8 @@
 import toast from "react-hot-toast"
 import postMethodFetch from "./postMethodFetch"
+import { commentedBlog } from "../store/blogSlice"
 
-const handleCommentOnTheBlog = (comment, blogId, setState) => {
+const handleCommentOnTheBlog = (comment, blogId, dispatch) => {
   const response = postMethodFetch('blog/commentonblog', { comment, blogId })
   response
     .then(data => {
@@ -9,7 +10,7 @@ const handleCommentOnTheBlog = (comment, blogId, setState) => {
         toast.error(data.msg)
       else if (data.msg === 'Commented SuccessFully on the blog') {
         toast.success(data.msg)
-        setState(prev => !prev)
+        dispatch(commentedBlog())
       }
       else
         toast.error(data.msg)

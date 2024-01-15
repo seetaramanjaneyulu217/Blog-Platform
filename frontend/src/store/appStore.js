@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import blogReducers from './blogSlice'
+import blogReducer from './blogSlice'
+import userActionsReducer from './userActionsSlice'
 
 const appStore = configureStore({
     reducer: {
-        blog: blogReducers
+        blog: blogReducer,
+        useractions: userActionsReducer
     }
 })
 

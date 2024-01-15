@@ -2,13 +2,14 @@ import { useEffect, useState } from "react"
 import postMethodFetch from "../utils/postMethodFetch"
 import toast from "react-hot-toast"
 
-const useGetSingleBlog = (blogId, stateUpdate) => {
+const useGetSingleBlog = (blogId, likedTheBlog, commentedTheBlog) => {
 
     const [blog, setBlog] = useState({})
     const [user, setUser] = useState({})
     const [loggedInUser, setLoggedInUser] = useState({})
     
     useEffect(() => {
+      console.log('in effect');
         const response = postMethodFetch('blog/getblogbyid', { blogId })
         response.then(data => {
             if(data.msg === 'Error in getting the blog')
@@ -19,7 +20,7 @@ const useGetSingleBlog = (blogId, stateUpdate) => {
               setLoggedInUser(data.msg.loggedInUser)
             }
         })
-    }, [stateUpdate])
+    }, [likedTheBlog, commentedTheBlog])
 
     return [blog, user, loggedInUser]
 }
