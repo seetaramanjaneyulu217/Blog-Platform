@@ -20,7 +20,7 @@ const useGetAllBlogs = (deletedBlog, setLoading) => {
               setAllBlogs(data.msg)
             }
         })
-        .catch(error => console.log(error))
+        .catch(error => toast.error('Error'))
     }, [deletedBlog])
 
     return allBlogs

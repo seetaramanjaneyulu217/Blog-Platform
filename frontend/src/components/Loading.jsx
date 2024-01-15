@@ -5,7 +5,7 @@ import 'react-loading-skeleton/dist/skeleton.css'
 const Loading = () => {
 
     return (
-        <div className='mt-[3%]'>
+        <div className='mt-[1%]'>
             <div className='flex items-center justify-center gap-x-8'>
                 <div className='flex border-2 p-2 cursor-pointer border-[#f5f5fa] bg-[#f5f5fa] rounded-xl w-6/12 mb-9 gap-x-7'>
                     {/* For image */}

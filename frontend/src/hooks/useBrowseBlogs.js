@@ -20,7 +20,7 @@ const useBrowseBlogs = (setLoading) => {
           setBlogs(data.msg)
         }
       })
-      .catch()
+      .catch(error => toast.error('Error'))
   }, [])
 
   return blogs

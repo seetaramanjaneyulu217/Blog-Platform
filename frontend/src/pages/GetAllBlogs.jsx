@@ -4,6 +4,7 @@ import BlogCard from '../components/BlogCard'
 import { useSelector } from 'react-redux'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import Loading from '../components/Loading'
+import noblogs from '../assets/noblogs.png'
 
 const GetAllBlogs = () => {
 
@@ -23,7 +24,13 @@ const GetAllBlogs = () => {
               <Loading />
               <Loading />
             </>
-          : <div className='flex flex-col gap-y-3 mt-20'>
+          : allBlogs.length === 0
+          ? <div className='flex items-center mx-52 mt-[7%]'>
+              <h1 className='text-5xl text-[#f0b093]'>No blogs yet... Create one now</h1>
+              <img alt='no blogs' src={noblogs} className='w-[50%] h-[50%]' />
+          </div>
+          :
+           <div className='flex flex-col gap-y-3 mt-20'>
             {
               allBlogs.slice(page * 5 - 5, page * 5).map(blog => (
                 <BlogCard key={blog._id} blog={blog} />

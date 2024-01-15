@@ -14,13 +14,13 @@ const createBlog = async (req, res) => {
         const createStatus = await new blogs({ title, aboutBlog, imageurl, ownerId: new mongoose.Types.ObjectId(userId) }).save()
 
         if (createStatus)
-            res.json({ msg: 'Published SuccessFully' })
+            res.status(200).json({ msg: 'Published SuccessFully' })
         else
-            res.json({ msg: 'Publishing the blog failed' })
+            res.status(500).json({ msg: 'Publishing the blog failed' })
 
     } catch (error) {
         const errors = blogDetailsErrors(error)
-        res.json({ msg: errors })
+        res.status(500).json({ msg: errors })
     }
 }
 
@@ -30,13 +30,13 @@ const editBlog = async (req, res) => {
         const { title, aboutBlog, imageurl, blogId } = req.body
         const editStatus = await blogs.updateOne({ _id: blogId }, { $set: { title, aboutBlog, imageurl } })
         if (editStatus)
-            res.json({ msg: 'Edit SuccessFul' })
+            res.status(200).json({ msg: 'Edit SuccessFul' })
         else
-            res.json({ msg: 'Edit failed' })
+            res.status(500).json({ msg: 'Edit failed' })
 
     } catch (error) {
         const errors = blogDetailsErrors(error)
-        res.json({ msg: errors })
+        res.status(500).json({ msg: errors })
     }
 }
 
@@ -47,13 +47,12 @@ const deleteBlog = async (req, res) => {
         const { blogId } = req.body
         const deleteStatus = await blogs.deleteOne({ _id: blogId })
         if (deleteStatus)
-            res.json({ msg: 'Deletion SuccessFul' })
+            res.status(200).json({ msg: 'Deletion SuccessFul' })
         else
-            res.json({ msg: 'Deletion failed' })
+            res.status(500).json({ msg: 'Deletion failed' })
 
     } catch (error) {
-        const errors = blogDetailsErrors(error)
-        res.json({ msg: errors })
+        res.status(500).json({ msg: error })
     }
 }
 
@@ -62,9 +61,9 @@ const getAllBlogs = async (req, res) => {
     try {
         const userId = req.user.userid
         const allBlogs = await blogs.find({ ownerId: userId })
-        res.json({ msg: allBlogs })
+        res.status(200).json({ msg: allBlogs })
     } catch (error) {
-        res.json({ msg: 'Error in getting your blogs' })
+        res.status(500).json({ msg: 'Error in getting your blogs' })
     }
 }
 
@@ -108,9 +107,9 @@ const likeBlog = async (req, res) => {
         const userUpdateResult = await users.updateOne({ _id: userId }, { $set: { likedBlogs: [...user.likedBlogs, blogId] } })
 
         if (blogUpdateResult && userUpdateResult)
-            res.json({ msg: 'Like Success' })
+            res.status(200).json({ msg: 'Like Success' })
         else
-            res.json({ msg: 'Error in liking the blog' })
+            res.status(500).json({ msg: 'Error in liking the blog' })
     } catch (error) {
         res.status(500).json({ msg: 'Error liking the blog' })
     }
@@ -127,9 +126,9 @@ const commentOnBlog = async (req, res) => {
         const blog = await blogs.findOne({ _id: blogId })
         const commentResponse = await blogs.updateOne({ _id: blogId }, { $set: { comments: blog.comments + 1, allComments: [...blog.allComments, { username, comment }] } })
         if(commentResponse)
-          res.json({ msg: 'Commented SuccessFully on the blog' })
+          res.status(200).json({ msg: 'Commented SuccessFully on the blog' })
         else
-          res.json({ msg: 'Error commenting on the blog' })
+          res.status(500).json({ msg: 'Error commenting on the blog' })
     } catch (error) {
         console.log(error)
         res.status(500).json({ msg: 'Error commenting on the blog from error' })

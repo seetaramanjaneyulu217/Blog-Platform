@@ -20,11 +20,11 @@ const registerUser = async (req, res) => {
         await new users({ username, email, password: encryptedPassword }).save()
         const user = await users.findOne({ email })
         const token = jwt.sign({ user: { userid: user._id } }, process.env.JWT_SECRET)
-        res.json({ msg: "Registered SuccessFully", token: token })
+        res.status(200).json({ msg: "Registered SuccessFully", token: token })
 
     } catch (error) {
         const errors = userDetailsErrors(error)
-        res.json({ msg: errors })
+        res.status(500).json({ msg: errors })
     }
 }
 
@@ -37,15 +37,15 @@ const loginUser = async (req, res) => {
             const presentUser = await bcrypt.compare(password, user.password)
             if(presentUser) {
                 const token = jwt.sign({ user: { userid: user._id } }, process.env.JWT_SECRET)
-                res.json({ msg: 'Login SuccessFul', token: token })
+                res.status(200).json({ msg: 'Login SuccessFul', token: token })
             }
 
             else {
-                res.json({ msg: "Invalid credentials" })
+                res.status(500).json({ msg: "Invalid credentials" })
             }
         }
         else
-           res.json({ msg: 'User is not present with these credentials' })
+           res.status(500).json({ msg: 'User is not present with these credentials' })
     } catch (error) {
         res.send(error)
     }

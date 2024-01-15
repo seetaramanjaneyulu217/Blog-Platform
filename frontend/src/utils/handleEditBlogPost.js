@@ -1,7 +1,7 @@
 import toast from "react-hot-toast"
 import postMethodFetch from "./postMethodFetch"
 
-const handleEditBlogPost = (navigate, blogId, { title, aboutBlog, imageurl }) => {
+const handleEditBlogPost = (navigate, setLoading, blogId, { title, aboutBlog, imageurl }) => {
 
     const response = postMethodFetch('blog/edit', { title, aboutBlog, imageurl, blogId })
     response.then(data => {
@@ -20,6 +20,8 @@ const handleEditBlogPost = (navigate, blogId, { title, aboutBlog, imageurl }) =>
         }
         else
             toast.error(data.msg)
+
+        setLoading(false)
     })
         .catch(error => {
             console.log(error)
