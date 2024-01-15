@@ -3,11 +3,11 @@ import { createSlice } from "@reduxjs/toolkit";
 const blogSlice = createSlice({
     name: 'blog',
     initialState: {
-        likedTheBlog: false
+        likedTheBlog: {}
     },
     reducers: {
-        likedBlog: (state) => {
-            state.likedTheBlog = !state.likedTheBlog
+        likedBlog: (state, action) => {
+            state.likedTheBlog = action.payload
         }
     }
 })

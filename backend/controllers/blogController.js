@@ -119,9 +119,11 @@ const likeBlog = async (req, res) => {
 
 const commentOnBlog = async (req, res) => {
     try {
+        const { comment, blogId } = req.body
+        if(comment === '') 
+          return res.json({ msg: 'Fill the comment field' })
         const userId = req.user.userid
         const { username } = await users.findOne({ _id: userId })
-        const { comment, blogId } = req.body
         const blog = await blogs.findOne({ _id: blogId })
         const commentResponse = await blogs.updateOne({ _id: blogId }, { $set: { comments: blog.comments + 1, allComments: [...blog.allComments, { username, comment }] } })
         if(commentResponse)

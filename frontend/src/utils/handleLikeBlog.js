@@ -2,7 +2,7 @@ import { likedBlog } from "../store/blogSlice"
 import postMethodFetch from "./postMethodFetch"
 import toast from 'react-hot-toast'
 
-const handleLikeBlog = (blogId, dispatch) => {
+const handleLikeBlog = (blogId, setStateUpdate) => {
   const response = postMethodFetch('blog/likeblog', { blogId })
   response
     .then(data => {
@@ -10,7 +10,7 @@ const handleLikeBlog = (blogId, dispatch) => {
         toast.success(data.msg)
       else if (data.msg === 'Like Success') {
         toast.success(data.msg)
-        dispatch(likedBlog())
+        setStateUpdate(prev => !prev)
       }
       else
         toast.error(data.error)

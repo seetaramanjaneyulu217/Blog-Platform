@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import postMethodFetch from "../utils/postMethodFetch"
 import toast from "react-hot-toast"
 
-const useGetSingleBlog = (blogId) => {
+const useGetSingleBlog = (blogId, stateUpdate) => {
 
     const [blog, setBlog] = useState({})
     const [user, setUser] = useState({})
@@ -19,7 +19,7 @@ const useGetSingleBlog = (blogId) => {
               setLoggedInUser(data.msg.loggedInUser)
             }
         })
-    }, [])
+    }, [stateUpdate])
 
     return [blog, user, loggedInUser]
 }

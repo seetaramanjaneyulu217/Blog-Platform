@@ -4,7 +4,7 @@ import moment from 'moment-timezone'
 
 const SingleBlogDisplayTemplate = ({ blog, user }) => {
   return (
-    <div className='flex flex-col mt-[6%] w-9/12 ml-[10%] gap-y-10'>
+    <div key={blog._id} className='flex flex-col mt-[6%] w-9/12 ml-[10%] gap-y-10'>
       {/*  for title */}
       <h1 className='text-4xl font-semibold'>{blog.title}</h1>
 
