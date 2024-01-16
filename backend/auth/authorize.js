@@ -4,18 +4,8 @@ dotenv.config()
 
 function AuthorizeUser(req, res, next) {
 
-  const authHeader = req.headers['authorization']
-
-  if (!authHeader) {
-    return res.json({ msg: 'Unauthorized' })
-  }
-
-  const [scheme, token] = authHeader.split(' ')
-
-  if (scheme !== 'Bearer') {
-    return res.json({ msg: 'Unauthorized' })
-  }
-
+  const token = req.cookies.jwtToken
+  
   try {
     const decoded = JWT.verify(token, process.env.JWT_SECRET)
     req.user = decoded.user

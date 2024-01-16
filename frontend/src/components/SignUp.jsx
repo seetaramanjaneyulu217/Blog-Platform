@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import handleUserSignUp from '../utils/handleUserSignUp'
+import Cookies from 'js-cookie'
 
 const SignUp = () => {
 
@@ -9,9 +10,9 @@ const SignUp = () => {
     const username = useRef(null)
     const email = useRef(null)
     const password = useRef(null)
-    const token = window.localStorage.getItem("token")
+    const userLoggedIn = Cookies.get("userLoggedIn")
 
-    if(token) {
+    if(userLoggedIn) {
         navigate('/')
         return
     }

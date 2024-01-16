@@ -17,7 +17,7 @@ const userRouter = require('./routes/userRoutes.js')
 const blogRouter = require('./routes/blogRoutes.js')
 
 // Using necessary middlewares
-app.use(cors())
+app.use(cors({ origin: 'http://localhost:3000', credentials: true }))
 app.use(bodyParser.json())
 app.use(cookieParser())
 app.use('/user', userRouter)
@@ -34,9 +34,4 @@ mongoose.connect(process.env.MONGODB_URL)
 })
 .catch(() => {
     console.log("Error while connecting to MongoDB")
-})
-
-
-app.post('/login', (req, res) => {
-    console.log(req.body)
 })

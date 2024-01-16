@@ -1,15 +1,23 @@
 import React, { useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import useGetSingleBlog from '../hooks/useGetSingleBlog'
 import SingleBlogDisplayTemplate from '../components/SingleBlogDisplayTemplate'
 import { CircleUserRound } from 'lucide-react'
 import SingleBlogLoading from '../components/SingleBlogLoading'
+import Cookies from 'js-cookie'
 
 const SingleOwnBlogDisplay = () => {
 
   const { blogId } = useParams()
   const [loading, setLoading] = useState(false)
   const [blog, user] = useGetSingleBlog(blogId, setLoading)
+  const navigate = useNavigate()
+  const userLoggedIn = Cookies.get("userLoggedIn")
+
+  if(!userLoggedIn) {
+    navigate('/')
+    return
+  }
 
   return (
     <div>

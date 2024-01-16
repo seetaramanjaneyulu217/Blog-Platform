@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^13.5.0",
     "antd": "^5.12.8",
     "axios": "^1.6.5",
+    "js-cookie": "^3.0.5",
     "lucide-react": "^0.309.0",
     "moment-timezone": "^0.5.44",
     "react": "^18.2.0",

@@ -13,9 +13,6 @@ const SingleBlogDisplayTemplate = ({ blog, user }) => {
         <h1 className='text-lg font-semibold'>
           Published on: <span className='text-lg font-medium'>{moment(blog.createdAt).tz('Asia/Kolkata').format('YYYY-MM-DD hh:mm:ss A')}</span>
         </h1>
-        <h1 className='text-lg font-semibold'>
-          Updated on: <span className='text-lg font-medium'>{moment(blog.updatedAt).tz('Asia/Kolkata').format('YYYY-MM-DD hh:mm:ss A')}</span>
-        </h1>
       </div>
 
       {blog.imageurl !== null && <div className='w-full'>

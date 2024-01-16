@@ -14,9 +14,6 @@ const SingleBlogLoading = () => {
                     <h1 className='text-lg font-semibold'>
                         Published on: <span className='text-lg font-medium'><Skeleton /></span>
                     </h1>
-                    <h1 className='text-lg font-semibold'>
-                        Updated on: <span className='text-lg font-medium'><Skeleton /></span>
-                    </h1>
                 </div>
 
                 <div className='w-full'>

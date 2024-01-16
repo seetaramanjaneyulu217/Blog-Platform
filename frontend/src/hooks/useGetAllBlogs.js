@@ -5,7 +5,7 @@ import toast from "react-hot-toast"
 const useGetAllBlogs = (deletedBlog, setLoading) => {
 
   const [allBlogs, setAllBlogs] = useState([])
-
+  
     useEffect(() => {
         setLoading(true)
         const response = getMethodFetch('blog/getallblogs')

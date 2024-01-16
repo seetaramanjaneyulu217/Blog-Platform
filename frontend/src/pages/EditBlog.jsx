@@ -5,6 +5,7 @@ import useGetSingleBlog from '../hooks/useGetSingleBlog'
 import axios from 'axios'
 import handleEditBlogPost from '../utils/handleEditBlogPost'
 import { BeatLoader } from 'react-spinners'
+import Cookies from 'js-cookie'
 
 const EditBlog = () => {
 
@@ -15,6 +16,7 @@ const EditBlog = () => {
     const [image, setImage] = useState(null)
     const [formData, setFormData] = useState(null)
     const [loading, setLoading] = useState(false)
+    const userLoggedIn = Cookies.get("userLoggedIn")
     const navigate = useNavigate()
 
     const handleFileChange = (e) => {
@@ -41,6 +43,11 @@ const EditBlog = () => {
         }
     }
 
+    if(!userLoggedIn) {
+        navigate('/')
+        return
+    }
+    
     return (
         <>
             <div className={`${loading ? 'blur-md' : ''} flex justify-center mt-20 gap-x-44`}>
@@ -66,7 +73,8 @@ const EditBlog = () => {
             </div>
 
             <div>
-                {loading && <BeatLoader size={30} color="#5fedb4" speedMultiplier={0.8} cssOverride={{ position: 'absolute', display: 'flex', alignItems: 'center', justifyContent: 'center', top: '43%', marginLeft: '47%' }} />}
+            {loading && <div style={{position: 'absolute', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', top: '43%', marginLeft: '47%'}}><BeatLoader size={30} color="#5fedb4" speedMultiplier={0.8} />
+                               <p className='text-xl font-semibold text-[#5fedb4]'>Your blog is getting edited...</p></div>}
             </div>
         </>
     )

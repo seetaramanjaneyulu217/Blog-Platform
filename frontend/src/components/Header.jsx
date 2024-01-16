@@ -2,16 +2,26 @@ import React from 'react'
 import { LOGO } from '../utils/constants'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Plus } from 'lucide-react'
+import postMethodFetch from '../utils/postMethodFetch'
+import Cookies from 'js-cookie'
+import toast from 'react-hot-toast'
 
 const Header = () => {
 
   const location = useLocation()
   const navigate = useNavigate()
-  const token = window.localStorage.getItem("token")
+  const userLoggedIn = Cookies.get("userLoggedIn")
 
   const handleLogout = () => {
-    window.localStorage.removeItem("token")
-    navigate('/signup')
+    const response = postMethodFetch('user/logout', {})
+    response
+    .then(data => {
+      if(data.msg === 'Logout successful') {
+        toast.success(data.msg)
+        Cookies.remove("userLoggedIn")
+        navigate('/')
+      }
+    })
   }
 
   return (
@@ -26,7 +36,7 @@ const Header = () => {
       {
         location.pathname === '/signup'
           ? ""
-          : !token
+          : !userLoggedIn
             ? <div>
               <Link to='/signup' className='border-2 border-[#5fedb4] bg-[#5fedb4] text-white text-lg font-semibold py-2 px-5 rounded-lg'>SignUp</Link>
             </div>

@@ -1,5 +1,6 @@
 import postMethodFetch from "./postMethodFetch"
 import toast from 'react-hot-toast'
+import Cookies from 'js-cookie'
 
 const handleUserSignUp = (navigate, isSignUpForm, { username, email, password }) => {
     // if user is trying to signup as a new user then 
@@ -11,10 +12,10 @@ const handleUserSignUp = (navigate, isSignUpForm, { username, email, password })
             .then(data => {
                 if (data.msg === "Registered SuccessFully") {
                     toast.success(data.msg)
-                    window.localStorage.setItem('token', data.token)
                     setTimeout(() => {
                         navigate('/')
                     }, 1000)
+                    Cookies.set("userLoggedIn", true)
                 }
                 else if (data.msg === "User already present")
                     return toast.error(data.msg)
@@ -33,10 +34,10 @@ const handleUserSignUp = (navigate, isSignUpForm, { username, email, password })
             .then(result => {
                 if (result.msg === 'Login SuccessFul') {
                     toast.success(result.msg)
-                    window.localStorage.setItem('token', result.token)
                     setTimeout(() => {
                         navigate('/')
                     }, 1000)
+                    Cookies.set("userLoggedIn", true)
                 }
                 else {
                     console.log(result.msg)

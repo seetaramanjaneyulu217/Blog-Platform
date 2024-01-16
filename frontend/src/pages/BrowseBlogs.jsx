@@ -3,12 +3,21 @@ import useBrowseBlogs from '../hooks/useBrowseBlogs'
 import BlogCard from '../components/BlogCard'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import Loading from '../components/Loading'
+import { useNavigate } from 'react-router-dom'
+import Cookies from 'js-cookie'
 
 const BrowseBlogs = () => {
 
   const [loading, setLoading] = useState(false)
   const [page, setPage] = useState(1)
   const blogs = useBrowseBlogs(setLoading)
+  const navigate = useNavigate()
+  const userLoggedIn = Cookies.get("userLoggedIn")
+
+  if(!userLoggedIn) {
+    navigate('/')
+    return
+  }
 
   return (
     <div>
@@ -29,13 +38,13 @@ const BrowseBlogs = () => {
             }
 
             <div className='flex justify-center items-center text-2xl gap-x-5 mb-[5%]'>
-              <ChevronLeft onClick={() => page !== 1 && setPage(prev => prev - 1)} className='cursor-pointer' strokeWidth={1.25} />
+              <ChevronLeft onClick={() => page !== 1 && setPage(prev => prev - 1)} className={`cursor-pointer ${page === 1 ? 'hidden' : 'block'}`} strokeWidth={1.25} />
               {
                 [...Array(Math.ceil(blogs.length / 5))].map((_, i) => (
                   <span className={`${page === i + 1 ? 'border-2 border-[#5fedb4] bg-[#5fedb4] text-white px-2 rounded-lg' : ''} cursor-pointer`} onClick={() => setPage(i + 1)} key={i}>{i + 1}</span>
                 ))
               }
-              <ChevronRight onClick={() => page !== Math.ceil(blogs.length / 5) && setPage(prev => prev + 1)} className='cursor-pointer' strokeWidth={1.25} />
+              <ChevronRight onClick={() => page !== Math.ceil(blogs.length / 5) && setPage(prev => prev + 1)} className={`cursor-pointer ${page === Math.ceil(blogs.length / 5) ? 'hidden' : 'block'}`} strokeWidth={1.25} />
             </div>
           </div>
       }

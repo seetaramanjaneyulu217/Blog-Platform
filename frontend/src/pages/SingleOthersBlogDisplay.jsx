@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import useGetSingleBlog from '../hooks/useGetSingleBlog'
 import SingleBlogDisplayTemplate from '../components/SingleBlogDisplayTemplate'
 import { CircleUserRound, Heart, MessageSquare } from 'lucide-react'
@@ -7,6 +7,7 @@ import handleLikeBlog from '../utils/handleLikeBlog'
 import { useDispatch, useSelector } from 'react-redux'
 import handleCommentOnTheBlog from '../utils/handleCommentOnTheBlog'
 import SingleBlogLoading from '../components/SingleBlogLoading'
+import Cookies from 'js-cookie'
 
 const SingleOthersBlogDisplay = () => {
 
@@ -17,7 +18,13 @@ const SingleOthersBlogDisplay = () => {
     const [blog, user, loggedInUser] = useGetSingleBlog(blogId, setLoading, likedTheBlog, commentedTheBlog)
     const dispatch = useDispatch()
     const comment = useRef()
+    const userLoggedIn = Cookies.get("userLoggedIn")
+    const navigate = useNavigate()
 
+    if(!userLoggedIn) {
+        navigate('/')
+        return
+    }
     return (
         <div>
             {
