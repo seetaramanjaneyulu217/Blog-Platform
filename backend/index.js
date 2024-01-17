@@ -18,6 +18,7 @@ const blogRouter = require('./routes/blogRoutes.js')
 
 // Using necessary middlewares
 app.use(cors({ origin: 'http://localhost:3000', credentials: true }))
+app.set("trust proxy", 1)
 app.use(bodyParser.json())
 app.use(cookieParser())
 app.use('/user', userRouter)
