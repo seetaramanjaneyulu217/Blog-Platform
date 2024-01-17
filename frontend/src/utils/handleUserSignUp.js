@@ -19,7 +19,7 @@ const handleUserSignUp = (navigate, setLoading, isSignUpForm, { username, email,
                     Cookies.set("userLoggedIn", true)
                 }
                 else if (data.msg === "User already present")
-                    return toast.error(data.msg)
+                    toast.error(data.msg)
                 else {
                     data.msg.map(error => {
                         toast.error(error)
