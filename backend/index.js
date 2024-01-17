@@ -29,7 +29,9 @@ mongoose.connect(process.env.MONGODB_URL)
     .then(() => {
         console.log("MongoDB Connected SuccessFully")
         app.listen(4000, () => {
-            console.log("Running on http://localhost:4000")
+            app.get('/', (req, res) => {
+                res.send("Hello, I am your server")
+            })
         })
     })
     .catch(() => {
