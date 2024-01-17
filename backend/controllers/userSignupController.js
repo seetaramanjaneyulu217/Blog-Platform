@@ -8,17 +8,59 @@ dotenv.config()
 const Users = require('../models/userSchema.js')
 
 // importing the error function which handles the userDetails errors
- const userDetailsErrors = require('../errors/userDetailsErrors.js')
+const userDetailsErrors = require('../errors/userDetailsErrors.js')
 
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       properties:
+ *         username:
+ *           type: string
+ *           minLength: 7
+ *           maxLength: 20
+ *         email:
+ *           type: string
+ *           format: email
+ *         password:
+ *           type: string
+ *           pattern: "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$"
+ *       required:
+ *         - username
+ *         - email
+ *         - password
+ */
+
+
+
+/**
+ * @swagger
+ * /register:
+ *   post:
+ *     summary: Register a new user
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/User'
+ *     responses:
+ *       '201':
+ *         description: User registered successfully
+ *       '500':
+ *         description: Internal Server Error
+ */
 // this api controller is run when user registers for the first time.
 const registerUser = async (req, res) => {
 
     try {
-        
+
         const { username, email, password } = req.body
 
-        if(password) {
+        if (password) {
             const encryptedPassword = await bcrypt.hash(password, 10)
             await new Users({ username, email, password: encryptedPassword }).save()
         }
@@ -48,10 +90,10 @@ const loginUser = async (req, res) => {
         const user = await Users.findOne({ email })
         // get the user. If user is present with the given details then
         // check the given password and hashed password matching or not
-        if(user) {
+        if (user) {
             const presentUser = await bcrypt.compare(password, user.password)
             // if password also matches then allow the user to logIn.
-            if(presentUser) {
+            if (presentUser) {
                 const token = jwt.sign({ user: { userid: user._id } }, process.env.JWT_SECRET)
                 res.cookie("jwtToken", token, { httpOnly: false, secure: true, sameSite: 'none' })
                 res.status(200).json({ msg: 'Login SuccessFul' })
@@ -62,7 +104,7 @@ const loginUser = async (req, res) => {
             }
         }
         else
-           res.status(500).json({ msg: 'User is not present with these credentials' })
+            res.status(500).json({ msg: 'User is not present with these credentials' })
     } catch (error) {
         res.send(error)
     }

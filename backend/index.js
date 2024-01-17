@@ -57,5 +57,8 @@ app.get('/', (req, res) => {
     res.send("Hello, I ma your server")
 })
 
+app.listen(4000, (req, res) => {
+    console.log('Server is running on http://localhost:4000')
+})
 
 module.exports = app
