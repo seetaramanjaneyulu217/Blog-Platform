@@ -4,17 +4,45 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
+const swaggerUi = require('swagger-ui-express');
+const swaggerJsdoc = require('swagger-jsdoc');
+
+
+// importing the necessary routes and database
+const userRouter = require('./routes/userRoutes.js')
+const blogRouter = require('./routes/blogRoutes.js')
+const connectToMongoDB = require('./database/connectToMongoDB.js')
 
 // initializing the express app
 const app = express()
+
+
+// swagger options
+const options = {
+    definition: {
+        openapi: '3.0.0',
+        info: {
+            title: 'User API',
+            version: '1.0.0',
+        },
+    },
+    apis: ['/routes/userRoutes',
+           '/routes/blogRoutes',
+           '/controllers/userSignupControllers',
+           '/controllers/blogControllers'
+    ]
+}
+
+const specs = swaggerJsdoc(options)
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs))
+
+// Connecting to MongoDB
+connectToMongoDB()
 
 // initializing the dotenv configuration for using the secrets present in .env file
 const dotenv = require('dotenv')
 dotenv.config()
 
-// importing the necessary routes
-const userRouter = require('./routes/userRoutes.js')
-const blogRouter = require('./routes/blogRoutes.js')
 
 // Using necessary middlewares
 app.use(cors({ origin: 'https://blog-platform-three-mauve.vercel.app', credentials: true }))
@@ -25,18 +53,9 @@ app.use('/user', userRouter)
 app.use('/blog', blogRouter)
 
 
-// Connecting the mongodb with my backend express app
-mongoose.connect(process.env.MONGODB_URL)
-    .then(() => {
-        console.log("MongoDB Connected SuccessFully")
-        app.listen(4000, () => {
-            app.get('/', (req, res) => {
-                res.send("Hello, I am your server")
-            })
-        })
-    })
-    .catch(() => {
-        console.log("Error while connecting to MongoDB")
-    })
+app.get('/', (req, res) => {
+    res.send("Hello, I ma your server")
+})
+
 
 module.exports = app
