@@ -11,62 +11,6 @@ const Users = require('../models/userSchema.js')
  const userDetailsErrors = require('../errors/userDetailsErrors.js')
 
 
-
-
-/**
- * @swagger
- * /user/register:
- *   post:
- *     summary: Register a new user
- *     tags: [Users]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               username:
- *                 type: string
- *                 description: The username of the user.
- *                 minLength: 7
- *                 maxLength: 20
- *               email:
- *                 type: string
- *                 format: email
- *                 description: The email of the user.
- *               password:
- *                 type: string
- *                 description: The password of the user.
- *                 minLength: 8
- *                 pattern: "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$"
- *     responses:
- *       201:
- *         description: User registered successfully
- *         headers:
- *           Set-Cookie:
- *             description: Authorization token
- *             schema:
- *               type: string
- *             example: "jwtToken=<your_token_value>; Path=/; HttpOnly; Secure"
- *         content:
- *           application/json:
- *             example:
- *               msg: Registered Successfully
- *       400:
- *         description: Bad Request
- *         content:
- *           application/json:
- *             example:
- *               msg: Validation error message
- *       500:
- *         description: Internal Server Error
- *         content:
- *           application/json:
- *             example:
- *               msg: Error message
- */
-
 // this api controller is run when user registers for the first time.
 const registerUser = async (req, res) => {
 
