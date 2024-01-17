@@ -6,11 +6,11 @@ const userActionsSlice = createSlice({
         deletedBlog: false
     },
     reducers: {
-        deletedBlog: (state, action) => {
+        userDeletedBlog: (state, action) => {
             state.deletedBlog = !state.deletedBlog
         }
     }
 })
 
 export default userActionsSlice.reducer
-export const { deletedBlog } = userActionsSlice.actions
+export const { userDeletedBlog } = userActionsSlice.actions

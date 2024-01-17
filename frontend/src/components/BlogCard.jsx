@@ -5,8 +5,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Dropdown, Space, Modal } from 'antd';
 import { Pencil, Trash } from "lucide-react";
 import handleDeleteBlog from '../utils/handleDeleteBlog';
-import { useDispatch } from 'react-redux';
-import { deletedBlog } from '../store/userActionsSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 const BlogCard = ({ blog }) => {
 
@@ -14,6 +13,7 @@ const BlogCard = ({ blog }) => {
     const location = useLocation()
     const [open, setOpen] = useState(false)
     const dispatch = useDispatch()
+    const deletedBlog = useSelector(state => state.useractions.deletedBlog)
 
     const items = [
         {
@@ -79,9 +79,8 @@ const BlogCard = ({ blog }) => {
                     <div className='flex justify-end gap-x-3'>
                         <button onClick={() => setOpen(false)} className='text-white border-2 border-blue-300 bg-blue-300 hover:bg-white hover:text-blue-300 p-2 rounded-lg py-1 px-3'>No, Cancel</button>
                         <button onClick={() => {
-                            handleDeleteBlog(blog._id)
+                            handleDeleteBlog(blog._id, dispatch)
                             setOpen(false)
-                            dispatch(deletedBlog())
                         }} className='text-white border-2 border-red-400 bg-red-400 hover:bg-white hover:text-red-400 p-2 rounded-lg py-1 px-3'>Yes, delete</button>
                     </div>
                 )}
