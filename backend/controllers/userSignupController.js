@@ -87,7 +87,7 @@ const registerUser = async (req, res) => {
         // cretaes a JWT token for us to authorize the user.
         const user = await Users.findOne({ email })
         const token = jwt.sign({ user: { userid: user._id } }, process.env.JWT_SECRET)
-        res.cookie("jwtToken", token, { httpOnly: false, secure: true })
+        res.cookie("jwtToken", token, { httpOnly: true, secure: true })
         res.status(201).json({ msg: "Registered SuccessFully" })
 
     } catch (error) {
@@ -109,7 +109,7 @@ const loginUser = async (req, res) => {
             // if password also matches then allow the user to logIn.
             if(presentUser) {
                 const token = jwt.sign({ user: { userid: user._id } }, process.env.JWT_SECRET)
-                res.cookie("jwtToken", token, { httpOnly: false, secure: true })
+                res.cookie("jwtToken", token, { httpOnly: true, secure: true })
                 res.status(200).json({ msg: 'Login SuccessFul' })
             }
 
