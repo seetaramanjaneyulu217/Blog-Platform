@@ -1,6 +1,6 @@
 const deleteMethodFetch = (route, blogId) => {
 
-    let response = fetch(`http://localhost:4000/${route}`, {
+    let response = fetch(`https://blog-app-backend-9a12.onrender.com/${route}`, {
         method: 'DELETE',
         credentials: 'include',
         mode: 'cors',

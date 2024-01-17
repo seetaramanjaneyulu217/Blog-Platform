@@ -1,6 +1,6 @@
 const getMethodFetch = (route) => {
 
-    let response = fetch(`http://localhost:4000/${route}`, {
+    let response = fetch(`https://blog-app-backend-9a12.onrender.com/${route}`, {
         method: 'GET',
         credentials: 'include',
         mode: 'cors',
