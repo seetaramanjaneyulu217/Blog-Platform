@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { DEFAULT_BLOG_IMAGE } from '../utils/constants'
-import { MessageSquare, MoreVertical, ThumbsUp } from 'lucide-react'
+import { Eye, MessageSquare, MoreVertical, ThumbsUp } from 'lucide-react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Dropdown, Space, Modal } from 'antd';
 import { Pencil, Trash } from "lucide-react";
@@ -38,7 +38,7 @@ const BlogCard = ({ blog }) => {
 
     return (
         <div className='flex items-center justify-center gap-x-8'>
-            <div onClick={() =>  { location.pathname !== '/blogs/browse' ? navigate(`/blog/${blog._id}/view`) : navigate(`/blog/${blog._id}/others/view`) }} className='flex border-2 p-2 cursor-pointer border-[#f5f5fa] bg-[#f5f5fa] rounded-xl w-6/12 mb-9 gap-x-7'>
+            <div className='flex border-2 p-2 cursor-pointer border-[#f5f5fa] bg-[#f5f5fa] rounded-xl w-6/12 mb-9 gap-x-7'>
                 {/* For image */}
                 <div className='w-3/12'>
                     <img alt='blogimage' src={blog.imageurl === null ? DEFAULT_BLOG_IMAGE : `https://res.cloudinary.com/dipdggpwh/image/upload/v${blog.imageurl}.png`} className='h-44 w-full rounded-xl' />
@@ -49,11 +49,16 @@ const BlogCard = ({ blog }) => {
                     <h1 className='text-3xl font-semibold line-clamp-3'>{blog.title}</h1>
                     <p className='line-clamp-2'>{blog.aboutBlog}</p>
                 </div>
+
+                <div>
+                    <Link to={location.pathname !== '/blogs/browse' ? navigate(`/blog/${blog._id}/view`) : navigate(`/blog/${blog._id}/others/view`)}><Eye strokeWidth={1.25} />View</Link>
+                    <Link><Pencil strokeWidth={1} className="text-blue-500" />Edit</Link>
+                </div>
             </div>
 
-            <div className='flex flex-col gap-y-5'>
+            {/* <div className='flex flex-col gap-y-5'> */}
                 {/* For edit and delete options */}
-                {
+                {/* {
                     location.pathname !== '/blogs/browse' && <div>
                         <Dropdown
                             menu={{
@@ -68,7 +73,7 @@ const BlogCard = ({ blog }) => {
                         </Dropdown>
                     </div>
                 }
-            </div>
+            </div> */}
 
             <Modal
                 open={open}

@@ -54,7 +54,7 @@ dotenv.config()
 
 
 // Using necessary middlewares
-app.use(cors({ origin: 'https://blog-platform-three-mauve.vercel.app', credentials: true }))
+app.use(cors({ origin: ['https://blog-platform-three-mauve.vercel.app', 'http://localhost:3000'], credentials: true }))
 app.set("trust proxy", 1)
 app.use(bodyParser.json())
 app.use(cookieParser())
