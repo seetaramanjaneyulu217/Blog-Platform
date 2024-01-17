@@ -13,47 +13,64 @@ const userDetailsErrors = require('../errors/userDetailsErrors.js')
 
 /**
  * @swagger
- * components:
- *   schemas:
- *     User:
- *       type: object
- *       properties:
- *         username:
- *           type: string
- *           minLength: 7
- *           maxLength: 20
- *         email:
- *           type: string
- *           format: email
- *         password:
- *           type: string
- *           pattern: "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$"
- *       required:
- *         - username
- *         - email
- *         - password
+ * tags:
+ *   name: Users
+ *   description: User operations
  */
-
-
 
 /**
  * @swagger
- * /register:
+ * /user/signup:
  *   post:
  *     summary: Register a new user
+ *     tags: [Users]
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/User'
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *                 description: The username of the user.
+ *                 minLength: 7
+ *                 maxLength: 20
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 description: The email of the user.
+ *               password:
+ *                 type: string
+ *                 description: The password of the user.
+ *                 minLength: 8
+ *                 pattern: "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$"
  *     responses:
- *       '201':
+ *       201:
  *         description: User registered successfully
- *       '500':
+ *         headers:
+ *           Set-Cookie:
+ *             description: Authorization token
+ *             schema:
+ *               type: string
+ *             example: "jwtToken=<your_token_value>; Path=/; HttpOnly; Secure"
+ *         content:
+ *           application/json:
+ *             example:
+ *               msg: Registered Successfully
+ *       400:
+ *         description: Bad Request
+ *         content:
+ *           application/json:
+ *             example:
+ *               msg: Validation error message
+ *       500:
  *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             example:
+ *               msg: Error message
  */
-// this api controller is run when user registers for the first time.
 const registerUser = async (req, res) => {
 
     try {
@@ -83,6 +100,56 @@ const registerUser = async (req, res) => {
 }
 
 
+
+/**
+ * @swagger
+ * /user/login:
+ *   post:
+ *     summary: Log in a user
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 description: The email of the user.
+ *               password:
+ *                 type: string
+ *                 description: The password of the user.
+ *                 minLength: 8
+ *                 pattern: "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$"
+ *     responses:
+ *       200:
+ *         description: User logged in successfully
+ *         headers:
+ *           Set-Cookie:
+ *             description: Authorization token
+ *             schema:
+ *               type: string
+ *             example: "jwtToken=<your_token_value>; Path=/; HttpOnly; Secure"
+ *         content:
+ *           application/json:
+ *             example:
+ *               msg: "Login Successful"
+ *       401:
+ *         description: Unauthorized - Invalid credentials
+ *         content:
+ *           application/json:
+ *             example:
+ *               msg: "Invalid credentials"
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             example:
+ *               msg: "Error during login"
+ */
+
 // this api controller is run when the user logIn into the app.
 const loginUser = async (req, res) => {
     try {
@@ -111,6 +178,45 @@ const loginUser = async (req, res) => {
 }
 
 
+
+/**
+ * @swagger
+ * /user/logout:
+ *   post:
+ *     summary: Log out a user
+ *     tags: [Users]
+ *     security:
+ *       - cookieAuth: []
+ *     responses:
+ *       200:
+ *         description: User logged out successfully
+ *         headers:
+ *           Set-Cookie:
+ *             description: Clearing the Authorization token cookie
+ *             schema:
+ *               type: string
+ *             example: "jwtToken=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT; HttpOnly; Secure"
+ *         content:
+ *           application/json:
+ *             example:
+ *               msg: "Logout successful"
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             example:
+ *               msg: "Error while logging out"
+ */
+
+/**
+ * @swagger
+ * components:
+ *   securitySchemes:
+ *     cookieAuth:
+ *       type: apiKey
+ *       in: cookie
+ *       name: jwtToken
+ */
 // this api controller runs when user wants to logout.
 const logoutUser = async (req, res) => {
     try {

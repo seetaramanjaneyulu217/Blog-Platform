@@ -4,8 +4,8 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
-const swaggerUi = require('swagger-ui-express');
-const swaggerJsdoc = require('swagger-jsdoc');
+const swaggerJsdoc = require('swagger-jsdoc')
+const swaggerUi = require('swagger-ui-express')
 
 
 // importing the necessary routes and database
@@ -17,24 +17,33 @@ const connectToMongoDB = require('./database/connectToMongoDB.js')
 const app = express()
 
 
-// swagger options
-const options = {
+// Swagger setup
+const swaggerOptions = {
     definition: {
         openapi: '3.0.0',
         info: {
             title: 'User API',
             version: '1.0.0',
+            description: 'API documentation for user operations',
         },
+        servers: [
+            {
+                url: 'https://blog-app-backend-9a12.onrender.com',
+                description: 'Local development server',
+            },
+        ],
     },
-    apis: ['/routes/userRoutes',
-           '/routes/blogRoutes',
-           '/controllers/userSignupControllers',
-           '/controllers/blogControllers'
-    ]
+    apis: [ __dirname + '/routes/userRoutes.js',
+           __dirname + '/routes/blogRoutes.js',
+           __dirname + '/controllers/userSignupController.js',
+           __dirname + '/controllers/blogController.js'
+    ],
 }
 
-const specs = swaggerJsdoc(options)
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs))
+
+const swaggerSpec = swaggerJsdoc(swaggerOptions)
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
+
 
 // Connecting to MongoDB
 connectToMongoDB()
