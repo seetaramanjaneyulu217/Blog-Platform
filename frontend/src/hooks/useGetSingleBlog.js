@@ -24,7 +24,7 @@ const useGetSingleBlog = (blogId, setLoading, likedTheBlog, commentedTheBlog) =>
           toast.error(data.msg)
         else {
           if (location.pathname !== `/blog/${blogId}/edit`) {
-            setTimeout(() => setLoading(false), 600)
+            setLoading(false)
           }
           setBlog(data.msg.blog)
           setUser(data.msg.user)

@@ -2,11 +2,12 @@ import postMethodFetch from "./postMethodFetch"
 import toast from 'react-hot-toast'
 import Cookies from 'js-cookie'
 
-const handleUserSignUp = (navigate, isSignUpForm, { username, email, password }) => {
+const handleUserSignUp = (navigate, setLoading, isSignUpForm, { username, email, password }) => {
     // if user is trying to signup as a new user then 
     // signup route gets executed else login route gets executed 
     // postMethodFetch is an Function for communicating with signup and login routes
     if (isSignUpForm) {
+        setLoading(true)
         const response = postMethodFetch("user/signup", { username, email, password })
         response
             .then(data => {
@@ -24,11 +25,13 @@ const handleUserSignUp = (navigate, isSignUpForm, { username, email, password })
                         toast.error(error)
                     })
                 }
+
+                setLoading(false)
             })
             .catch(error => console.log(error))
     }
     else {
-
+        setLoading(true)
         let response = postMethodFetch("user/login", { email, password })
         response
             .then(result => {
@@ -43,6 +46,7 @@ const handleUserSignUp = (navigate, isSignUpForm, { username, email, password })
                     console.log(result.msg)
                     toast.error(result.msg)
                 }
+                setLoading(false)
             })
     }
 }

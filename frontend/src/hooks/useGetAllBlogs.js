@@ -14,9 +14,7 @@ const useGetAllBlogs = (deletedBlog, setLoading) => {
             if(data.msg === 'Error in getting your blogs')
               toast.error(data.msg)
             else {
-              setTimeout(() => {
-                setLoading(false)
-              }, 600)
+              setLoading(false)
               setAllBlogs(data.msg)
             }
         })

@@ -73,7 +73,7 @@ const EditBlog = () => {
             </div>
 
             <div>
-            {loading && <div style={{position: 'absolute', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', top: '43%', marginLeft: '47%'}}><BeatLoader size={30} color="#5fedb4" speedMultiplier={0.8} />
+            {loading && <div style={{position: 'absolute', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', top: '43%', marginLeft: '37%'}}><BeatLoader size={30} color="#5fedb4" speedMultiplier={0.8} />
                                <p className='text-xl font-semibold text-[#5fedb4]'>Your blog is getting edited...</p></div>}
             </div>
         </>

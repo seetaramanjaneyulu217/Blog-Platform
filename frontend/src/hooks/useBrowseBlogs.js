@@ -14,9 +14,7 @@ const useBrowseBlogs = (setLoading) => {
         if (data.msg === 'Error in getting the blogs')
           toast.error(data.msg)
         else {
-          setTimeout(() => {
-            setLoading(false)
-          }, 600)
+          setLoading(false)
           setBlogs(data.msg)
         }
       })

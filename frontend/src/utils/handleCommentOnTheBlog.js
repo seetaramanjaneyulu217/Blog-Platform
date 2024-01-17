@@ -2,7 +2,8 @@ import toast from "react-hot-toast"
 import postMethodFetch from "./postMethodFetch"
 import { commentedBlog } from "../store/blogSlice"
 
-const handleCommentOnTheBlog = (comment, blogId, dispatch) => {
+const handleCommentOnTheBlog = (comment, setLoading, blogId, dispatch) => {
+  setLoading(true)
   const response = postMethodFetch('blog/commentonblog', { comment, blogId })
   response
     .then(data => {
@@ -14,6 +15,11 @@ const handleCommentOnTheBlog = (comment, blogId, dispatch) => {
       }
       else
         toast.error(data.msg)
+
+      setLoading(false)
+    })
+    .catch(error => {
+      toast.error('Error')
     })
 }
 

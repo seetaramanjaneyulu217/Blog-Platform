@@ -1,5 +1,6 @@
 import React from 'react'
 import moment from 'moment-timezone'
+import { DEFAULT_BLOG_IMAGE } from '../utils/constants'
 
 
 const SingleBlogDisplayTemplate = ({ blog, user }) => {
@@ -15,9 +16,9 @@ const SingleBlogDisplayTemplate = ({ blog, user }) => {
         </h1>
       </div>
 
-      {blog.imageurl !== null && <div className='w-full'>
-        <img alt='blogimage' className='h-96 rounded-2xl' src={`https://res.cloudinary.com/dipdggpwh/image/upload/v${blog.imageurl}.png`} />
-      </div>}
+      <div className='w-full'>
+        <img alt='blogimage' className={`h-96 rounded-2xl ${blog.imageurl === null ? 'border-2 w-[45%] bg-[#f5f5fa]' : ''}`} src={blog.imageurl === null ? DEFAULT_BLOG_IMAGE :`https://res.cloudinary.com/dipdggpwh/image/upload/v${blog.imageurl}.png`} />
+      </div>
 
       <p className='text-xl'>
         {blog.aboutBlog}
