@@ -1,9 +1,9 @@
 import toast from "react-hot-toast"
-import postMethodFetch from "./postMethodFetch"
+import putMethodFetch from "./putMethodFetch"
 
 const handleEditBlogPost = (navigate, setLoading, blogId, { title, aboutBlog, imageurl }) => {
 
-    const response = postMethodFetch('blog/edit', { title, aboutBlog, imageurl, blogId })
+    const response = putMethodFetch('blog/edit', { title, aboutBlog, imageurl, blogId })
     response.then(data => {
         if (data.msg === 'Edit SuccessFul') {
             toast.success(data.msg)

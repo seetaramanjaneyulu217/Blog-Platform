@@ -5,12 +5,12 @@ const cors = require('cors')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 
+// initializing the express app
+const app = express()
+
 // initializing the dotenv configuration for using the secrets present in .env file
 const dotenv = require('dotenv')
 dotenv.config()
-
-// initializing the express app
-const app = express()
 
 // importing the necessary routes
 const userRouter = require('./routes/userRoutes.js')
@@ -26,12 +26,14 @@ app.use('/blog', blogRouter)
 
 // Connecting the mongodb with my backend express app
 mongoose.connect(process.env.MONGODB_URL)
-.then(() => {
-    console.log("MongoDB Connected SuccessFully")
-    app.listen(4000, () => {
-        console.log("Running on http://localhost:4000")
+    .then(() => {
+        console.log("MongoDB Connected SuccessFully")
+        app.listen(4000, () => {
+            console.log("Running on http://localhost:4000")
+        })
     })
-})
-.catch(() => {
-    console.log("Error while connecting to MongoDB")
-})
+    .catch(() => {
+        console.log("Error while connecting to MongoDB")
+    })
+
+module.exports = app

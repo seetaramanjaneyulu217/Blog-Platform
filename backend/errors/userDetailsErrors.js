@@ -1,5 +1,5 @@
 const userDetailsErrors = (error) => {
-
+    
     // this if statement is for checking for the duplicate user.
     if(error.code === 11000) return "User already present"
     // this else statement is for checking the validation of the user data

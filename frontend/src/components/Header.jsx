@@ -41,6 +41,7 @@ const Header = () => {
               <Link to='/signup' className='border-2 border-[#5fedb4] bg-[#5fedb4] text-white text-lg font-semibold py-2 px-5 rounded-lg'>SignUp</Link>
             </div>
             : <div className='flex gap-7'>
+              <button onClick={() => navigate('/your-blogs')} className='text-white font-semibold gap-1 border-2 border-[#5fedb4] bg-[#5fedb4] rounded-lg py-2 px-5'>Get my blogs</button>
               {
                 location.pathname !== '/blogs/browse' &&
                 <button onClick={() => navigate('/blogs/browse')} className='flex items-center text-white font-semibold gap-1 border-2 border-[#5fedb4] bg-[#5fedb4] rounded-lg py-2 px-5'>

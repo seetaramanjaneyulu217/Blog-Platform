@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema({
         required: [true, "Username is required"],
         unique: true,
         maxlength: [20, "Username should be of length < 20"],
-        minlength: [7, "Username shoould be of length >= 7"]
+        minlength: [7, "Username should be of length >= 7"]
     },
 
     email: {
@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema({
         required: [true, "Password is required"],
         validate: {
             validator: (value) => {
-                return /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/.test(value)
+                return /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/.test(value);
             },
             message: "Password must contain at least one uppercase letter, one lowercase letter, one special character, one digit."
         }
@@ -39,5 +39,5 @@ const userSchema = new mongoose.Schema({
     }
 })
 
-const users = mongoose.model('Users', userSchema)
-module.exports = users
+const Users = mongoose.model('Users', userSchema)
+module.exports = Users

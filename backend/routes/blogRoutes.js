@@ -5,7 +5,7 @@ const { createBlog, getAllBlogs, getSingleBlog, editBlog, deleteBlog, browseBlog
 const editBlogDetailsValidation = require('../middlewares/editBlogDetailsValidation')
 
 router.route('/create').post(AuthorizeUser, createBlog)
-router.route('/edit').post(editBlogDetailsValidation, editBlog)
+router.route('/edit').put(editBlogDetailsValidation, AuthorizeUser, editBlog)
 router.route('/delete').delete(AuthorizeUser, deleteBlog)
 router.route('/getallblogs').get(AuthorizeUser, getAllBlogs)
 router.route('/getblogbyid').post(AuthorizeUser, getSingleBlog)

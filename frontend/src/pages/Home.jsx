@@ -8,10 +8,11 @@ const Home = () => {
   const userLoggedIn = Cookies.get("userLoggedIn")
 
   return (
-    <div>
-      { userLoggedIn &&
-        <button onClick={() => navigate('/your-blogs')} className='text-white font-semibold gap-1 border-2 border-[#5fedb4] bg-[#5fedb4] rounded-lg py-2 px-5'>Get my blogs</button>
-      }
+    <div className='flex w-11/12 mx-auto items-center mt-[3.7%]'>
+      <h1 className='w-3/12 text-5xl'>Explore the world of Blogs here</h1>
+      <div className='w-8/12'>
+        <img className='rounded-2xl h-[550px]' src='https://images.pexels.com/photos/262508/pexels-photo-262508.jpeg' />
+      </div>
     </div>
   )
 }

@@ -5,11 +5,67 @@ const dotenv = require('dotenv')
 dotenv.config()
 
 // importing the models
-const users = require('../models/userSchema.js')
+const Users = require('../models/userSchema.js')
 
 // importing the error function which handles the userDetails errors
  const userDetailsErrors = require('../errors/userDetailsErrors.js')
 
+
+
+
+/**
+ * @swagger
+ * /user/register:
+ *   post:
+ *     summary: Register a new user
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *                 description: The username of the user.
+ *                 minLength: 7
+ *                 maxLength: 20
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 description: The email of the user.
+ *               password:
+ *                 type: string
+ *                 description: The password of the user.
+ *                 minLength: 8
+ *                 pattern: "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$"
+ *     responses:
+ *       201:
+ *         description: User registered successfully
+ *         headers:
+ *           Set-Cookie:
+ *             description: Authorization token
+ *             schema:
+ *               type: string
+ *             example: "jwtToken=<your_token_value>; Path=/; HttpOnly; Secure"
+ *         content:
+ *           application/json:
+ *             example:
+ *               msg: Registered Successfully
+ *       400:
+ *         description: Bad Request
+ *         content:
+ *           application/json:
+ *             example:
+ *               msg: Validation error message
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             example:
+ *               msg: Error message
+ */
 
 // this api controller is run when user registers for the first time.
 const registerUser = async (req, res) => {
@@ -18,17 +74,21 @@ const registerUser = async (req, res) => {
         
         const { username, email, password } = req.body
 
-        // hasing the original password
-        const encryptedPassword = await bcrypt.hash(password, 10)
+        if(password) {
+            const encryptedPassword = await bcrypt.hash(password, 10)
+            await new Users({ username, email, password: encryptedPassword }).save()
+        }
 
-        await new users({ username, email, password: encryptedPassword }).save()
+        else {
+            await new Users({ username, email, password }).save()
+        }
 
         // after saving the user we get the _id of the registered user and
         // cretaes a JWT token for us to authorize the user.
-        const user = await users.findOne({ email })
+        const user = await Users.findOne({ email })
         const token = jwt.sign({ user: { userid: user._id } }, process.env.JWT_SECRET)
         res.cookie("jwtToken", token, { httpOnly: true, secure: true })
-        res.status(200).json({ msg: "Registered SuccessFully" })
+        res.status(201).json({ msg: "Registered SuccessFully" })
 
     } catch (error) {
         const errors = userDetailsErrors(error)
@@ -41,7 +101,7 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body
-        const user = await users.findOne({ email })
+        const user = await Users.findOne({ email })
         // get the user. If user is present with the given details then
         // check the given password and hashed password matching or not
         if(user) {
